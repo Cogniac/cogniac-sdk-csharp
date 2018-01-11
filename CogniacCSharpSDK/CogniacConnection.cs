@@ -4,12 +4,7 @@ using System.Collections.Generic;
 using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Deserializers;
-using System.Web;
 using System.Net;
-using System.Text;
-using System.Linq;
-using System.Threading;
-using Newtonsoft.Json;
 
 namespace CogniacCSharpSDK
 {
@@ -37,7 +32,7 @@ namespace CogniacCSharpSDK
             }
             if (string.IsNullOrEmpty(_urlPrefix))
             {
-                throw new ArgumentException("urlPrefix parameter is null or empty.");
+                throw new ArgumentException(message: "urlPrefix parameter is null or empty.");
             }
         }
 
@@ -58,7 +53,7 @@ namespace CogniacCSharpSDK
             }
             catch
             {
-                throw new ArgumentException(resp.Content);
+                throw new ArgumentException(message: resp.Content);
             }
         }
 
@@ -125,7 +120,7 @@ namespace CogniacCSharpSDK
                     }
                     else
                     {
-                        throw new ArgumentException("Provided user has multiple or no tenants, please use GetAllAuthorizedTenants(...) first and supply a single valid tenantId parameter.");
+                        throw new ArgumentException(message: "Provided user has multiple or no tenants, please use GetAllAuthorizedTenants(...) first and supply a single valid tenantId parameter.");
                     }
                 }
             }
@@ -145,7 +140,7 @@ namespace CogniacCSharpSDK
                     }
                     else
                     {
-                        throw new ArgumentException("Parameter 'userName' not provided!");
+                        throw new ArgumentException(message: "Parameter 'userName' not provided!");
                     }
                 }
                 if (string.IsNullOrEmpty(_password))
@@ -157,7 +152,7 @@ namespace CogniacCSharpSDK
                     }
                     else
                     {
-                        throw new ArgumentException("Parameter 'password' is not provided!");
+                        throw new ArgumentException(message: "Parameter 'password' is not provided!");
                     }
                 }
             }
@@ -165,7 +160,7 @@ namespace CogniacCSharpSDK
 
         public CogniacCreateMediaObject UploadMedia
         (
-            string fileName,
+            string fileName = null,
             long mediaTimestamp = 0,
             string parentMediaId = null,
             string[] parentMediaIds = null,
@@ -188,108 +183,157 @@ namespace CogniacCSharpSDK
         {
             if (!string.IsNullOrEmpty(_providedToken))
             {
-                if (File.Exists(fileName))
+                byte[] fileBytes;
+                if (!String.IsNullOrEmpty(sourceUrl))
                 {
-                    var request = new RestRequest(Method.POST);
-                    request.AlwaysMultipartFormData = true;
-                    string mediaFormat = Path.GetExtension(fileName);
-                    mediaFormat = mediaFormat.Replace(".", string.Empty);
-                    if (mediaTimestamp <= 0)
-                    {
-                        mediaTimestamp = Helpers.ToUnixTime(File.GetCreationTime(fileName));
-                    }
-                    Dictionary<string, object> dict = new Dictionary<string, object>
-                    {
-                        { "media_src", "c_sharp_sdk" },
-                        { "media_fomat", mediaFormat },
-                        { "media_timestamp", mediaTimestamp },
-                        { "filename", fileName },
-                        { "force_overwrite", forceOverwrite },
-                        { "public", isPublic },
-                        { "video", isVideo },
-                    };
-                    if (isVideo == true)
-                    {
-                        dict.Add("frame", frame);
-                    }
-                    if (!String.IsNullOrEmpty(parentMediaId))
-                    {
-                        dict.Add("parent_media_id", parentMediaId);
-                    }
-                    if (!(parentMediaIds == null))
-                    {
-                        dict.Add("parent_media_ids", Helpers.FlattenStringArray(parentMediaIds));
-                    }
-                    if (!(metaTags == null))
-                    {
-                        dict.Add("meta_tags", Helpers.FlattenStringArray(metaTags));
-                    }
-                    if (!String.IsNullOrEmpty(externalMediaId))
-                    {
-                        dict.Add("external_media_id", externalMediaId);
-                    }
-                    if (!String.IsNullOrEmpty(originalUrl))
-                    {
-                        dict.Add("original_url", originalUrl);
-                    }
-                    if (!String.IsNullOrEmpty(originalLandingUrl))
-                    {
-                        dict.Add("original_landing_url", originalLandingUrl);
-                    }
-                    if (!String.IsNullOrEmpty(license))
-                    {
-                        dict.Add("license", license);
-                    }
-                    if (!String.IsNullOrEmpty(authorProfileUrl))
-                    {
-                        dict.Add("author_profile_url", authorProfileUrl);
-                    }
-                    if (!String.IsNullOrEmpty(author))
-                    {
-                        dict.Add("author", author);
-                    }
-                    if (!String.IsNullOrEmpty(title))
-                    {
-                        dict.Add("title", title);
-                    }
-                    if (!String.IsNullOrEmpty(sourceUrl))
-                    {
-                        dict.Add("source_url", sourceUrl);
-                    }
-                    if (!String.IsNullOrEmpty(previewUrl))
-                    {
-                        dict.Add("preview_url", previewUrl);
-                    }
-                    string data = Helpers.MapToQueryString(dict);
-                    request.AddFile("fileData", Helpers.GetFileBytesContent(fileName), fileName);
-                    IRestResponse response;
-                    if (string.IsNullOrEmpty(localGatewayUrl))
-                    {
-                        response = ExecuteRequest(_urlPrefix + "/media?" + data, request);
-                    }
-                    else
-                    {
-                        response = ExecuteRequest(localGatewayUrl + "/media?" + data, request);
-                    }
-                    if ((response.StatusCode == HttpStatusCode.OK) && (response.IsSuccessful == true))
-                    {
-                        return CogniacCreateMediaObject.FromJson(response.Content);
-                    }
-                    else
-                    {
-                        throw new WebException("Network error.");
-                    }
+                    fileBytes = Helpers.GetFileBytesContent(sourceUrl);
+                    fileName = sourceUrl;
                 }
                 else
                 {
-                    throw new ArgumentException("File does not exist: '" + fileName + "'");
+                    if (File.Exists(fileName))
+                    {
+                        fileBytes = Helpers.GetFileBytesContent(fileName);
+                    }
+                    else
+                    {
+                        throw new ArgumentException(message: "File does not exist: '" + fileName + "'");
+                    }
+                }
+                if (String.IsNullOrEmpty(fileName) && String.IsNullOrEmpty(sourceUrl))
+                {
+                    throw new ArgumentException(message: "No input file provided (fileName or sourceUrl");
+                }
+                var request = new RestRequest(Method.POST);
+                request.AlwaysMultipartFormData = true;
+                string mediaFormat = Path.GetExtension(fileName);
+                mediaFormat = mediaFormat.Replace(".", string.Empty);
+                if (mediaTimestamp <= 0)
+                {
+                    if (!((fileName.ToLower().StartsWith("https://")) || (fileName.ToLower().StartsWith("http://"))))
+                    {
+                        mediaTimestamp = Helpers.ToUnixTime(File.GetCreationTime(fileName));
+                    }
+                }
+                Dictionary<string, object> dict = new Dictionary<string, object>
+                {
+                    { "media_src", "c_sharp_sdk" },
+                    { "media_fomat", mediaFormat },
+                    { "media_timestamp", mediaTimestamp },
+                    { "filename", fileName },
+                    { "force_overwrite", forceOverwrite },
+                    { "public", isPublic },
+                    { "video", isVideo },
+                };
+                if (isVideo == true)
+                {
+                    dict.Add("frame", frame);
+                }
+                if (!String.IsNullOrEmpty(parentMediaId))
+                {
+                    dict.Add("parent_media_id", parentMediaId);
+                }
+                if (!(parentMediaIds == null))
+                {
+                    dict.Add("parent_media_ids", Helpers.FlattenStringArray(parentMediaIds));
+                }
+                if (!(metaTags == null))
+                {
+                    dict.Add("meta_tags", Helpers.FlattenStringArray(metaTags));
+                }
+                if (!String.IsNullOrEmpty(externalMediaId))
+                {
+                    dict.Add("external_media_id", externalMediaId);
+                }
+                if (!String.IsNullOrEmpty(originalUrl))
+                {
+                    dict.Add("original_url", originalUrl);
+                }
+                if (!String.IsNullOrEmpty(originalLandingUrl))
+                {
+                    dict.Add("original_landing_url", originalLandingUrl);
+                }
+                if (!String.IsNullOrEmpty(license))
+                {
+                    dict.Add("license", license);
+                }
+                if (!String.IsNullOrEmpty(authorProfileUrl))
+                {
+                    dict.Add("author_profile_url", authorProfileUrl);
+                }
+                if (!String.IsNullOrEmpty(author))
+                {
+                    dict.Add("author", author);
+                }
+                if (!String.IsNullOrEmpty(title))
+                {
+                    dict.Add("title", title);
+                }
+                if (!String.IsNullOrEmpty(previewUrl))
+                {
+                    dict.Add("preview_url", previewUrl);
+                }
+                string data = Helpers.MapToQueryString(dict);
+                request.AddFile("fileData", fileBytes, fileName);
+                IRestResponse response;
+                if (string.IsNullOrEmpty(localGatewayUrl))
+                {
+                    response = ExecuteRequest(_urlPrefix + "/media?" + data, request);
+                }
+                else
+                {
+                    response = ExecuteRequest(localGatewayUrl + "/media?" + data, request);
+                }
+                if ((response.StatusCode == HttpStatusCode.OK) && (response.IsSuccessful == true))
+                {
+                    return CogniacCreateMediaObject.FromJson(response.Content);
+                }
+                else
+                {
+                    throw new WebException(message: "Network error.");
                 }
             }
             else
             {
-                throw new ArgumentException("Access token is null or empty");
+                throw new ArgumentException(message: "Access token is null or empty");
             }
         }
 
+        public bool DeleteMedia(string mediaId, string localGatewayUrl = null)
+        {
+            string fullUrl = "";
+            if (!string.IsNullOrEmpty(mediaId))
+            {
+                if (string.IsNullOrEmpty(localGatewayUrl))
+                {
+                    fullUrl = _urlPrefix + "/media/" + mediaId;
+                }
+                else
+                {
+                    if (localGatewayUrl.EndsWith("/"))
+                    {
+                        fullUrl = localGatewayUrl + "media/" + mediaId;
+                    }
+                    else
+                    {
+                        fullUrl = localGatewayUrl + "/media/" + mediaId;
+                    }
+                }
+                var request = new RestRequest(Method.DELETE);
+                var response = ExecuteRequest(fullUrl, request);
+                if (response.IsSuccessful && (response.StatusCode == HttpStatusCode.NoContent))
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new WebException(message: "Error deleting media.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException(message: "mediaId parameter is not provided.");
+            }
+        }
     }
 }

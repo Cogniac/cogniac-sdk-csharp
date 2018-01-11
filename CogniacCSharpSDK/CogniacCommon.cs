@@ -60,7 +60,7 @@ namespace CogniacCSharpSDK
         public static byte[] GetFileBytesContent(string fileName)
         {
             byte[] sContents;
-            if (fileName.ToLower().IndexOf("http:") > -1)
+            if ((fileName.ToLower().StartsWith("https://")) || (fileName.ToLower().StartsWith("http://")))
             {
                 // if URL, download it
                 WebClient wc = new WebClient();
