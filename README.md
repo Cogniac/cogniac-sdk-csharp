@@ -6,33 +6,33 @@ This client library provides access to most of the common functionality of the C
 
 __CogniacConnection(username, password, tenantId, token, urlPrefix)__
 
-        Description: 			Create an authenticated Cogniac connection with known credentials.
+	Description: 			Create an authenticated Cogniac connection with known credentials.
 
-        username (string):        	(Optional) The Cogniac account username (usually an email address).
+	username (string):        	(Optional) The Cogniac account username (usually an email address).
 					If username is not provided, then the contents of the
 					COG_USER environment variable is used as the username.
 
-        password (string):          	(Optional) The associated Cogniac account password.
+	password (string):          	(Optional) The associated Cogniac account password.
 					If password is not provided, then the contents of the
 					COG_PASS environment variable is used as the username.
 
-        tenantId (string):          	(Optional) tenant_id with which to assume credentials.
+	tenantId (string):          	(Optional) tenant_id with which to assume credentials.
 					This is only required if the user is a member of multiple tenants.
 					If tenant_id is not provided, and the user is a member of multiple tenant
 					then the contents of the COG_TENANT environment variable is used
 					as the tenant_id.
 
-        token (string):             	(Optional) If a known API access token is provided, it can be used instead of all
+	token (string):             	(Optional) If a known API access token is provided, it can be used instead of all
 					other parameters. (This approach is recommended). 
-                                      
-        urlPrefix (string):         	(Optional) Do not use this parameter unless the API has been relocated to 
+	
+	urlPrefix (string):         	(Optional) Do not use this parameter unless the API has been relocated to 
 					a different address. The default value is always used.
 
 The following are methods members of the CogniacConnection object:
 
 __GetAllAuthorizedTenants(username, password, urlPrefix)__
 		
-        Description: 			Static method that returns a CogniacTenantsObject containing all
+	Description: 			Static method that returns a CogniacTenantsObject containing all
 					Tenants that a specific user is associated with. All the input parameters are 
 					used exactly in the same manner as creating a CogniacConnection object.
 		
