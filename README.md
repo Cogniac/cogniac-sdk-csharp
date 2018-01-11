@@ -100,7 +100,7 @@ __DeleteMedia(mediaId, localGatewayUrl)__
 		
 The following are the objects used in the SDK and their members.
 		
-# H1 CogniacTenantsObject
+# CogniacTenantsObject
 
 	Tenants (object array)		List of Tenant objects.
 
@@ -108,7 +108,7 @@ The following are the objects used in the SDK and their members.
 
 	Tenants[].Name (string)		The tenant's given name.
 
-# H1 CogniacAuthObject
+# CogniacAuthObject
 
 	UserId (string)			The unique user ID from the Cogniac system.
 
@@ -124,7 +124,7 @@ The following are the objects used in the SDK and their members.
 
 	UserEmail (string)		The associated user's email address.
 		
-# H1 CogniacCreateMediaObject
+# CogniacCreateMediaObject
 
 	SetAssignment (string)		Denotes whether the media will be used as training or validation.
 
