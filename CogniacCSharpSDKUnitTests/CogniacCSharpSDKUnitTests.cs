@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CogniacCSharpSDK;
+using Cogniac;
 using System;
 
 namespace CogniacCSharpSDKUnitTests
@@ -12,7 +12,7 @@ namespace CogniacCSharpSDKUnitTests
         public void CogConnUserPassTest()
         {
             // Supplied user name and password only are correct
-            CogniacConnection cc = new CogniacConnection("al@ieee.org", "SomePassword9999");
+            Connection cc = new Connection("al@ieee.org", "SomePassword9999");
             Assert.IsNotNull(cc);
         }
     }

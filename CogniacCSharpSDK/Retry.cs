@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace CogniacCSharpSDK
+namespace Cogniac
 {
     /// <summary>
     /// This class performs retry logic for any call that can fail

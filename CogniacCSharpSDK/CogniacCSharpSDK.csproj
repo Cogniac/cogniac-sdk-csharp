@@ -7,7 +7,7 @@
     <ProjectGuid>{DCDCA520-3AA1-4DAC-8E36-89FDDA60A9F1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CogniacCSharpSDK</RootNamespace>
+    <RootNamespace>Cogniac</RootNamespace>
     <AssemblyName>CogniacCSharpSDK</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -50,13 +50,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CogniacAuthObject.cs" />
-    <Compile Include="CogniacCommon.cs" />
-    <Compile Include="CogniacConnection.cs" />
-    <Compile Include="CogniacCreateMediaObject.cs" />
-    <Compile Include="CogniacCSharpSDK.cs" />
-    <Compile Include="CogniacTenant.cs" />
-    <Compile Include="CogniacTenantsObject.cs" />
+    <Compile Include="Applications.cs" />
+    <Compile Include="Auth.cs" />
+    <Compile Include="Common.cs" />
+    <Compile Include="Connection.cs" />
+    <Compile Include="Media.cs" />
+    <Compile Include="CSharpSDK.cs" />
+    <Compile Include="Subjects.cs" />
+    <Compile Include="AuthorizedTenants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Retry.cs" />
   </ItemGroup>

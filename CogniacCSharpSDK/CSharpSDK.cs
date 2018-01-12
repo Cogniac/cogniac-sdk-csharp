@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CogniacCSharpSDK
+namespace Cogniac
 {
-    class CogniacTenant
+    public class CSharpSDK
     {
+        
     }
 }

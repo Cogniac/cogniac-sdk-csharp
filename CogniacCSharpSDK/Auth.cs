@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace CogniacCSharpSDK
+namespace Cogniac
 {
-    // To parse this JSON data, add NuGet 'Newtonsoft.Json' then do:
-    // var data = CogniacAuthObject.FromJson(jsonstring);
-    partial class CogniacAuthObject
+    partial class Auth
     {
         [JsonProperty("user_id")]
         public string UserId { get; set; }
@@ -16,7 +14,7 @@ namespace CogniacCSharpSDK
         public string TenantId { get; set; }
 
         [JsonProperty("expires_in")]
-        public long ExpiresIn { get; set; }
+        public long? ExpiresIn { get; set; }
 
         [JsonProperty("token_type")]
         public string TokenType { get; set; }
@@ -28,9 +26,9 @@ namespace CogniacCSharpSDK
         public string UserEmail { get; set; }
     }
 
-    public partial class CogniacAuthObject
+    public partial class Auth
     {
-        public static CogniacAuthObject FromJson(string json)
-            => JsonConvert.DeserializeObject<CogniacAuthObject>(json, Converter.Settings);
+        public static Auth FromJson(string json)
+            => JsonConvert.DeserializeObject<Auth>(json, Converter.Settings);
     }
 }

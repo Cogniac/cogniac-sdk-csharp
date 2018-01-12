@@ -1,59 +1,57 @@
-﻿using System;
-using System.Net;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace CogniacCSharpSDK
+namespace Cogniac
 {
-    public partial class CogniacCreateMediaObject
+    public partial class Media
     {
         [JsonProperty("set_assignment")]
         public string SetAssignment { get; set; }
 
         [JsonProperty("num_frames")]
-        public object NumFrames { get; set; }
+        public long? NumFrames { get; set; }
 
         [JsonProperty("frame")]
-        public object Frame { get; set; }
+        public long? Frame { get; set; }
 
         [JsonProperty("video")]
-        public bool Video { get; set; }
+        public bool? Video { get; set; }
 
         [JsonProperty("frame_durations")]
         public object[] FrameDurations { get; set; }
 
         [JsonProperty("duration")]
-        public object Duration { get; set; }
+        public long? Duration { get; set; }
 
         [JsonProperty("size")]
-        public long Size { get; set; }
+        public long? Size { get; set; }
 
         [JsonProperty("network_camera_id")]
-        public object NetworkCameraId { get; set; }
+        public string NetworkCameraId { get; set; }
 
         [JsonProperty("resize_urls")]
         public Dictionary<string, string> ResizeUrls { get; set; }
 
         [JsonProperty("original_url")]
-        public object OriginalUrl { get; set; }
+        public string OriginalUrl { get; set; }
 
         [JsonProperty("image_width")]
-        public long ImageWidth { get; set; }
+        public long? ImageWidth { get; set; }
 
         [JsonProperty("filename")]
         public string Filename { get; set; }
 
         [JsonProperty("original_landing_url")]
-        public object OriginalLandingUrl { get; set; }
+        public string OriginalLandingUrl { get; set; }
 
         [JsonProperty("fps")]
-        public object Fps { get; set; }
+        public double? Fps { get; set; }
 
         [JsonProperty("uploaded_by_user")]
         public string UploadedByUser { get; set; }
 
         [JsonProperty("media_timestamp")]
-        public long MediaTimestamp { get; set; }
+        public long? MediaTimestamp { get; set; }
 
         [JsonProperty("media_url")]
         public string MediaUrl { get; set; }
@@ -65,59 +63,70 @@ namespace CogniacCSharpSDK
         public string MediaId { get; set; }
 
         [JsonProperty("external_media_id")]
-        public object ExternalMediaId { get; set; }
+        public string ExternalMediaId { get; set; }
 
         [JsonProperty("time_base")]
         public object TimeBase { get; set; }
 
         [JsonProperty("source_url")]
-        public object SourceUrl { get; set; }
+        public string SourceUrl { get; set; }
 
         [JsonProperty("author_profile_url")]
-        public object AuthorProfileUrl { get; set; }
+        public string AuthorProfileUrl { get; set; }
 
         [JsonProperty("media_src")]
         public string MediaSrc { get; set; }
 
         [JsonProperty("parent_media_id")]
-        public object ParentMediaId { get; set; }
+        public string ParentMediaId { get; set; }
 
         [JsonProperty("md5")]
         public string Md5 { get; set; }
 
         [JsonProperty("parent_media_ids")]
-        public object[] ParentMediaIds { get; set; }
+        public string[] ParentMediaIds { get; set; }
 
         [JsonProperty("meta_tags")]
         public string[] MetaTags { get; set; }
 
         [JsonProperty("license")]
-        public object License { get; set; }
+        public string License { get; set; }
 
         [JsonProperty("tenant_id")]
         public string TenantId { get; set; }
 
         [JsonProperty("created_at")]
-        public double CreatedAt { get; set; }
+        public double? CreatedAt { get; set; }
 
         [JsonProperty("author")]
         public string Author { get; set; }
 
         [JsonProperty("preview_url")]
-        public object PreviewUrl { get; set; }
+        public string PreviewUrl { get; set; }
 
         [JsonProperty("image_height")]
-        public long ImageHeight { get; set; }
+        public long? ImageHeight { get; set; }
 
         [JsonProperty("media_format")]
         public string MediaFormat { get; set; }
 
         [JsonProperty("title")]
-        public object Title { get; set; }
+        public string Title { get; set; }
     }
 
-    public partial class CogniacCreateMediaObject
+    public partial class CaptureId
     {
-        public static CogniacCreateMediaObject FromJson(string json) => JsonConvert.DeserializeObject<CogniacCreateMediaObject>(json, Converter.Settings);
+        [JsonProperty("capture_id")]
+        public string Id { get; set; }
+    }
+
+    public partial class CaptureId
+    {
+        public static CaptureId FromJson(string json) => JsonConvert.DeserializeObject<CaptureId>(json, Converter.Settings);
+    }
+
+    public partial class Media
+    {
+        public static Media FromJson(string json) => JsonConvert.DeserializeObject<Media>(json, Converter.Settings);
     }
 }

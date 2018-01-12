@@ -6,23 +6,23 @@ using RestSharp.Authenticators;
 using RestSharp.Deserializers;
 using System.Net;
 
-namespace CogniacCSharpSDK
+namespace Cogniac
 {
-    public class CogniacConnection
+    public class Connection
     {
         private string _urlPrefix = "";
         private string _username = "";
         private string _password = "";
         private string _tenantId = "";
         private string _providedToken = "";
-        private CogniacAuthObject _authObject = null;
-        public CogniacConnection(string username = "", string password = "", string tenantId = "", string token = "", string urlPrefix = "https://api.cogniac.io/1")
+        private Auth _authObject = null;
+        public Connection(string username = "", string password = "", string tenantId = "", string token = "", string urlPrefix = "https://api.cogniac.io/1")
         {
             _username = username;
             _password = password;
             _providedToken = token;
             _tenantId = tenantId;
-            _urlPrefix = urlPrefix;
+            _urlPrefix = urlPrefix;            
             // if token is provided, no need to validate other input data
             if (string.IsNullOrEmpty(_providedToken))
             {
@@ -36,19 +36,19 @@ namespace CogniacCSharpSDK
             }
         }
 
-        public CogniacAuthObject GetCogniacAuthObject()
+        public Auth GetAuthObject()
         {
             return _authObject;
         }
 
         private void Authenticate()
         {
-            string fullUrl = _urlPrefix + "/oauth/token?tenant_id=" + _tenantId;
-            _authObject = CogniacAuthObject.FromJson(ExecuteRequest(fullUrl).Content);
+            string fullUrl = $"{_urlPrefix}/oauth/token?tenant_id={_tenantId}";
+            _authObject = Auth.FromJson(ExecuteRequest(fullUrl).Content);
             IRestResponse resp = ExecuteRequest(fullUrl);
             try
             {
-                _authObject = CogniacAuthObject.FromJson(resp.Content);
+                _authObject = Auth.FromJson(resp.Content);
                 _providedToken = _authObject.AccessToken;
             }
             catch
@@ -66,7 +66,7 @@ namespace CogniacCSharpSDK
             }
             if (!string.IsNullOrEmpty(_providedToken))
             {
-                request.AddHeader("Authorization", "Bearer " + _providedToken);
+                request.AddHeader("Authorization", $"Bearer {_providedToken}");
             }
             else
             {
@@ -77,11 +77,11 @@ namespace CogniacCSharpSDK
             return Retry.Do(() => client.Execute(request), TimeSpan.FromSeconds(5), 3);
         }
 
-        public static CogniacTenantsObject GetAllAuthorizedTenants(string username = "", string password = "", string urlPrefix = "https://api.cogniac.io/1")
+        public static AuthorizedTenants GetAllAuthorizedTenants(string username = "", string password = "", string urlPrefix = "https://api.cogniac.io/1")
         {
-            var client = new RestClient(urlPrefix + "/users/current/tenants");
+            var client = new RestClient($"{urlPrefix}/users/current/tenants");
             var request = new RestRequest(Method.GET);
-            CogniacTenantsObject returnValue = null;
+            AuthorizedTenants returnValue = null;
             IRestResponse resp = null;
             try
             {
@@ -89,7 +89,7 @@ namespace CogniacCSharpSDK
                 client.AddHandler("application/json", new JsonDeserializer());
                 request.AddHeader("Cache-Control", "no-cache");
                 resp = Retry.Do(() => client.Execute(request), TimeSpan.FromSeconds(5), 3);
-                returnValue = CogniacTenantsObject.FromJson(resp.Content);
+                returnValue = AuthorizedTenants.FromJson(resp.Content);
             }
             catch (Exception ex)
             {
@@ -112,11 +112,11 @@ namespace CogniacCSharpSDK
                 {
                     // We don't have a tenantId in the environment and it is not provided
                     // Get list of tenants, if only 1, use it.
-                    CogniacTenantsObject cto;
-                    cto = GetAllAuthorizedTenants(_username, _password, urlPrefix: _urlPrefix);
-                    if (cto.Tenants.Length.Equals(1))
+                    AuthorizedTenants at;
+                    at = GetAllAuthorizedTenants(_username, _password, urlPrefix: _urlPrefix);
+                    if (at.Tenants.Length.Equals(1))
                     {
-                        _tenantId = cto.Tenants[0].TenantId;
+                        _tenantId = at.Tenants[0].TenantId;
                     }
                     else
                     {
@@ -158,7 +158,7 @@ namespace CogniacCSharpSDK
             }
         }
 
-        public CogniacCreateMediaObject UploadMedia
+        public Media UploadMedia
         (
             string fileName = null,
             long mediaTimestamp = 0,
@@ -204,8 +204,10 @@ namespace CogniacCSharpSDK
                 {
                     throw new ArgumentException(message: "No input file provided (fileName or sourceUrl");
                 }
-                var request = new RestRequest(Method.POST);
-                request.AlwaysMultipartFormData = true;
+                var request = new RestRequest(Method.POST)
+                {
+                    AlwaysMultipartFormData = true
+                };
                 string mediaFormat = Path.GetExtension(fileName);
                 mediaFormat = mediaFormat.Replace(".", string.Empty);
                 if (mediaTimestamp <= 0)
@@ -273,20 +275,24 @@ namespace CogniacCSharpSDK
                 {
                     dict.Add("preview_url", previewUrl);
                 }
+                if (!String.IsNullOrEmpty(sourceUrl))
+                {
+                    dict.Add("source_url", sourceUrl);
+                }
                 string data = Helpers.MapToQueryString(dict);
                 request.AddFile("fileData", fileBytes, fileName);
                 IRestResponse response;
                 if (string.IsNullOrEmpty(localGatewayUrl))
                 {
-                    response = ExecuteRequest(_urlPrefix + "/media?" + data, request);
+                    response = ExecuteRequest($"{_urlPrefix}/media?{data}", request);
                 }
                 else
                 {
-                    response = ExecuteRequest(localGatewayUrl + "/media?" + data, request);
+                    response = ExecuteRequest($"{localGatewayUrl}/media?{data}", request);
                 }
                 if ((response.StatusCode == HttpStatusCode.OK) && (response.IsSuccessful == true))
                 {
-                    return CogniacCreateMediaObject.FromJson(response.Content);
+                    return Media.FromJson(response.Content);
                 }
                 else
                 {
@@ -306,17 +312,17 @@ namespace CogniacCSharpSDK
             {
                 if (string.IsNullOrEmpty(localGatewayUrl))
                 {
-                    fullUrl = _urlPrefix + "/media/" + mediaId;
+                    fullUrl = $"{_urlPrefix}/media/{mediaId}";
                 }
                 else
                 {
                     if (localGatewayUrl.EndsWith("/"))
                     {
-                        fullUrl = localGatewayUrl + "media/" + mediaId;
+                        fullUrl = $"{localGatewayUrl}media/{mediaId}";
                     }
                     else
                     {
-                        fullUrl = localGatewayUrl + "/media/" + mediaId;
+                        fullUrl = $"{localGatewayUrl}/media/{mediaId}";
                     }
                 }
                 var request = new RestRequest(Method.DELETE);
@@ -335,5 +341,143 @@ namespace CogniacCSharpSDK
                 throw new ArgumentException(message: "mediaId parameter is not provided.");
             }
         }
-    }
+
+        public Subjects GetAllSubjects(string tenantId)
+        {
+            if (!String.IsNullOrEmpty(tenantId))
+            {
+                string fullUrl = $"{_urlPrefix}/tenants/{tenantId}/subjects";
+                var request = new RestRequest(Method.GET);
+                var response = ExecuteRequest(fullUrl, request);
+                if (response.IsSuccessful && (response.StatusCode == HttpStatusCode.OK))
+                {
+                    return Subjects.FromJson(response.Content);
+                }
+                else
+                {
+                    throw new WebException(message: "Network error while getting all subjects.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException(message: "The tenant ID provided is null or empty.");
+            }
+        }
+
+        public Subject GetSubject(string subjectUid)
+        {
+            if (!String.IsNullOrEmpty(subjectUid))
+            {
+                string fullUrl = $"{_urlPrefix}/subjects/{subjectUid}";
+                var request = new RestRequest(Method.GET);
+                var response = ExecuteRequest(fullUrl, request);
+                if (response.IsSuccessful && (response.StatusCode == HttpStatusCode.OK))
+                {
+                    return Subject.FromJson(response.Content);
+                }
+                else
+                {
+                    throw new WebException(message: "Network error while getting subjects.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException(message: "The subject ID provided is null or empty.");
+            }
+        }
+
+        public Applications GetAllApplications(string tenantId)
+        {
+            if (!String.IsNullOrEmpty(tenantId))
+            {
+                string fullUrl = $"{_urlPrefix}/tenants/{tenantId}/applications";
+                var request = new RestRequest(Method.GET);
+                var response = ExecuteRequest(fullUrl, request);
+                if (response.IsSuccessful && (response.StatusCode == HttpStatusCode.OK))
+                {
+                    return Applications.FromJson(response.Content);
+                }
+                else
+                {
+                    throw new WebException(message: "Network error while getting all applications.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException(message: "The tenant ID provided is null or empty.");
+            }
+        }
+
+        public Application GetApplication(string applicationId)
+        {
+            if (!String.IsNullOrEmpty(applicationId))
+            {
+                string fullUrl = $"{_urlPrefix}/applications/{applicationId}";
+                var request = new RestRequest(Method.GET);
+                var response = ExecuteRequest(fullUrl, request);
+                if (response.IsSuccessful && (response.StatusCode == HttpStatusCode.OK))
+                {
+                    return Application.FromJson(response.Content);
+                }
+                else
+                {
+                    throw new WebException(message: "Network error while getting application.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException(message: "The application ID provided is null or empty.");
+            }
+        }
+
+        public Tenant GetTenant(string tenantId)
+        {
+            if (!String.IsNullOrEmpty(tenantId))
+            {
+                string fullUrl = $"{_urlPrefix}/tenants/{tenantId}";
+                var request = new RestRequest(Method.GET);
+                var response = ExecuteRequest(fullUrl, request);
+                if (response.IsSuccessful && (response.StatusCode == HttpStatusCode.OK))
+                {
+                    return Tenant.FromJson(response.Content);
+                }
+                else
+                {
+                    throw new WebException(message: "Network error while getting tenant.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException(message: "The tenant ID provided is null or empty.");
+            }
+        }
+
+        public CaptureId AssociateMediaToSubject(string mediaId, string subjectUid, bool forceFeedback = false)
+        {
+            if (string.IsNullOrEmpty(mediaId) || string.IsNullOrEmpty(subjectUid))
+            {
+                throw new ArgumentException(message: "Provided media ID or subject UID are is or empty.");
+            }
+            else
+            {
+                Dictionary<string, object> dict = new Dictionary<string, object>
+                {
+                    { "media_id", mediaId },
+                    { "force_feedback", forceFeedback }
+                };
+                var request = new RestRequest(Method.POST);
+                string data = Helpers.MapToQueryString(dict);
+                IRestResponse response = ExecuteRequest($"{_urlPrefix}/subjects/{subjectUid}/media?{data}", request);
+                Console.WriteLine(Serialize.ToJson(response));
+                if ((response.StatusCode == HttpStatusCode.OK) && (response.IsSuccessful == true))
+                {
+                    return CaptureId.FromJson(response.Content);
+                }
+                else
+                {
+                    throw new WebException(message: "Network error.");
+                }
+            }
+        }
+    } // End of class
 }

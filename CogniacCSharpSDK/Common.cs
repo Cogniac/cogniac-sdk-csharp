@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 
-namespace CogniacCSharpSDK
+namespace Cogniac
 {
     public static class Serialize
     {
