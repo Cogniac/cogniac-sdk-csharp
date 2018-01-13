@@ -1,10 +1,12 @@
 .NET 4.6.1 C# SDK For Cogniac Public API
 
-This client library provides access to most of the common functionality of the Cogniac public API. The main entry point is the CogniacConnection object.
+This client library provides access to most of the common functionality of the Cogniac public API. The main entry point is the Cogniac.Connection object.
 
-# CogniacConnection
+The namespace Cogniac is used in this SDK, and all trivial types are nullable (E.G. long? ExpiresIn;).
 
-__CogniacConnection(username, password, tenantId, token, urlPrefix)__
+# Class: Connection
+
+__Cogniac.Connection(username, password, tenantId, token, urlPrefix)__
 
 	Description: 			Create an authenticated Cogniac connection with known credentials.
 
@@ -17,41 +19,44 @@ __CogniacConnection(username, password, tenantId, token, urlPrefix)__
 					COG_PASS environment variable is used as the username.
 
 	tenantId (string):          	(Optional) tenant_id with which to assume credentials.
-					This is only required if the user is a member of multiple tenants.
-					If tenant_id is not provided, and the user is a member of multiple tenant
-					then the contents of the COG_TENANT environment variable is used
-					as the tenant_id.
+					This is only required if the user is a member of multiple 
+					tenants. If tenant_id is not provided, and the user is a member 
+					of multiple tenant then the contents of the COG_TENANT 
+					environment variable is used as the tenant_id.
 
-	token (string):             	(Optional) If a known API access token is provided, it can be used instead of all
-					other parameters. (This approach is recommended). 
+	token (string):             	(Optional) If a known API access token is provided, it can be 
+					used instead of all other parameters. (This approach is recommended). 
 	
-	urlPrefix (string):         	(Optional) Do not use this parameter unless the API has been relocated to 
-					a different address. The default value is always used.
+	urlPrefix (string):         	(Optional) Do not use this parameter unless the API has 
+					been relocated to a different address. The default value is always used.
 
 The following are methods members of the CogniacConnection object:
 
 __GetAllAuthorizedTenants(username, password, urlPrefix)__
 		
-	Description: 			Static method that returns a CogniacTenantsObject containing all
-					Tenants that a specific user is associated with. All the input parameters are 
-					used exactly in the same manner as creating a CogniacConnection object.
+	Description: 			Static method that returns an AuthorizedTenants 
+					object containing all tenants that a specific user
+					is associated with. All the input parameters are 
+					used in the same manner as creating a Connection object.
 		
-	Return:				CogniacTenantsObject - multi-member object.
+	Return:				Cogniac.Tenants - multi-member object.
 				
-__GetCogniacAuthObject()__
+__GetAuth()__
 		
-	Description:			Returns an object containing the authentication information with the Cogniac API.
+	Description:			Returns an object containing the authentication 
+					information with the Cogniac API.
 		
-	Return:				CogniacAuthObject - multi-member object.
+	Return:				Cogniac.Auth - multi-member object.
 		
-__UploadMedia(fileName, mediaTimestamp, parentMediaId, parentMediaIds, frame, forceOverwrite, metaTags, isPubli, 
-		isVideo, externalMediaId, originalUrl, originalLandingUrl, license, authorProfileUrl, author, title, 
-		sourceUrl, previewUrl, localGatewayUrl)__
+__UploadMedia(fileName, mediaTimestamp, parentMediaId, parentMediaIds, frame, 
+		forceOverwrite, metaTags, isPubli, isVideo, externalMediaId, 
+		originalUrl, originalLandingUrl, license, authorProfileUrl, author, 
+		title, sourceUrl, previewUrl, localGatewayUrl)__
 		
 	Description:			Uploads a media file to the Cogniac system.
 		
-	fileName (string):		(Optional) The full path and file name of media item to upload. If this is
-					not provided, sourceUrl must be provided instead.
+	fileName (string):		(Optional) The full path and file name of media item 
+					to upload. If this is not provided, sourceUrl must be provided instead.
 		
 	mediaTimestamp (long):		(Optional) User-specified image timestamp.
 
@@ -81,14 +86,14 @@ __UploadMedia(fileName, mediaTimestamp, parentMediaId, parentMediaIds, frame, fo
 
 	title (string):			(Optional) Title of this media.
 
-	sourceUrl (string):		(Optional) Can pass an optional URL to the media to be created instead of a file.
-					If this is not provided, fileName must be provided instead.
+	sourceUrl (string):		(Optional) Can pass an optional URL to the media to be created 
+					instead of a file. If not provided, fileName must be provided instead.
 
 	previewUrl (string):		(Optional) URL for media preview image for display.
 
 	localGatewayUrl (string):	(Optional) URL to upload media to, this is used when a local gateway is installed.
 
-	Return:				CogniacCreateMediaObject - multi-member object.
+	Return:				Cogniac.Media - multi-member object.
 
 __DeleteMedia(mediaId, localGatewayUrl)__
 
@@ -97,103 +102,318 @@ __DeleteMedia(mediaId, localGatewayUrl)__
 	mediaId (string):		(Required) The media ID of the object to be deleted from the Cogniac system.
 
 	Return:				bool - 'true' on success, 'false' otherwise.
-		
+	
+__GetAllSubjects(tenantId)__
+
+	Description:			Gets all subjects associated with a given tenant ID.
+	
+	tenantId (string):		(Required) The tenant ID to pass to the API.
+
+	Return:				Cogniac.Subjects - multi-member object.
+	
+__GetSubject(subjectUid)__
+
+	Description:			Gets a subject associated with a given subject UID.
+	
+	subjectUid (string):		(Required) The subject UID to pass to the API.
+
+	Return:				Cogniac.Subject - multi-member object.
+	
+__GetAllApplications(tenantId)__
+
+	Description:			Gets all applications associated with a given tenant ID.
+	
+	tenantId (string):		(Required) The tenant ID to pass to the API.
+
+	Return:				Cogniac.Applications - multi-member object.
+	
+__GetApplication(applicationId)__
+
+	Description:			Gets an application associated with a given application ID.
+	
+	applicationId (string):		(Required) The application ID to pass to the API.
+
+	Return:				Cogniac.Application - multi-member object.
+	
+__GetTenant(tenantId)__
+
+	Description:			Gets a tenant's information given a tenant ID.
+	
+	tenantId (string):		(Required) The tenant ID to pass to the API.
+
+	Return:				Cogniac.Tenant - multi-member object.
+	
+__AssociateMediaToSubject(mediaId, subjectUid, forceFeedback)__
+
+	Description:			Gets a tenant's information given a tenant ID.
+	
+	mediaId (string):		(Required) The unique ID of the media.
+
+	subjectUid (string):		(Required) The unique subject UID to associate the media with.
+
+	foreFeedback (bool):		(Optional) Forces the cogniac system to use the media for feedback.
+					This value defaults to false if.
+
+	Return:				Cogniac.Tenant - multi-member object.
+
 The following are the objects used in the SDK and their members.
 		
-# CogniacTenantsObject
+# Class: AuthorizedTenants
 
-	Tenants (object array)		List of Tenant objects.
+	Tenants (object array)		
+		List of Tenant objects.
+	
+# Class: Tenants
 
-	Tenants[].TenantId (string)	The tenant ID.
+	TenantId (string)	
+		The tenant ID.
 
-	Tenants[].Name (string)		The tenant's given name.
+	Name (string)		
+		The tenant's given name.
+	
+	Description (string)	
+		The description of the tenant.
+	
+	CreatedAt (double)	
+		The creation time of the tenant.
+	
+	ModifiedAt (double)	
+		The time the tenant was last modified.
+	
+	CreatedBy (string)	
+		String containing the ID of the tenant's creator.
 
-# CogniacAuthObject
+# Class: Auth
 
-	UserId (string)			The unique user ID from the Cogniac system.
+	UserId (string)			
+		The unique user ID from the Cogniac system.
 
-	AccessToken (string)		The access token generated by the Cogniac system.
+	AccessToken (string)		
+		The access token generated by the Cogniac system.
 
-	TenantId (string)		The associated tenant ID.
+	TenantId (string)		
+		The associated tenant ID.
 
-	ExpiresIn (long)		The amount of seconds left for the token to expire.
+	ExpiresIn (long)		
+		The amount of seconds left for the token to expire.
 
-	TokenType (string)		The type of the access token.
+	TokenType (string)		
+		The type of the access token.
 
-	TenantName (string)		The associated tenant's given name.
+	TenantName (string)		
+		The associated tenant's given name.
 
-	UserEmail (string)		The associated user's email address.
+	UserEmail (string)		
+		The associated user's email address.
 		
-# CogniacCreateMediaObject
+# Class: Media
 
-	SetAssignment (string)		Denotes whether the media will be used as training or validation.
+	SetAssignment (string)		
+		Denotes whether the media will be used as training or validation.
 
-	NumFrames (long)		Number of frames.
+	NumFrames (long)		
+		Number of frames.
 
-	Frame (long)			Frame value.
+	Frame (long)			
+		Frame value.
 
-	Video (bool)			'True' if media is video.
+	Video (bool)			
+		'True' if media is video.
 
-	FrameDurations (object array)	Array containing duration of each frame.
+	FrameDurations (object array)	
+		Array containing duration of each frame.
 
-	Duration (long)		Duration of the video file (if provided).
+	Duration (long)			
+		Duration of the video file (if provided).
 
-	Size (long)			Size of the media created.
+	Size (long)			
+		Size of the media created.
 
-	NetworkCameraId (string)	ID string for the network camera, if used.
+	NetworkCameraId (string)	
+		ID string for the network camera, if used.
 
-	ResizeUrls (Dictionary)		A map containing all the resize URLs generated by the Cogniac system.
+	ResizeUrls (Dictionary)		
+		A map containing all the resize URLs generated by the Cogniac system.
 
-	OriginalUrl (string)		The original URL of the media.
+	OriginalUrl (string)		
+		The original URL of the media.
 
-	ImageWidth (long)		The width of the image uploaded.
+	ImageWidth (long)		
+		The width of the image uploaded.
 
-	Filename (string)		The name of the file.
+	Filename (string)		
+		The name of the file.
 
-	OriginalLandingUrl (string)	The original landing URL.
+	OriginalLandingUrl (string)	
+		The original landing URL.
 
-	Fps (double)			Frames per second.
+	Fps (double)			
+		Frames per second.
 
-	UploadedByUser (string)		The user who uploaded the media.
+	UploadedByUser (string)		
+		The user who uploaded the media.
 
-	MediaTimestamp (long)		The provided media timestamp.
+	MediaTimestamp (long)		
+		The provided media timestamp.
 
-	MediaUrl (string)		The media URL.
+	MediaUrl (string)		
+		The media URL.
 
-	Status (string)			The upload status message.
+	Status (string)			
+		The upload status message.
 
-	MediaId (string)		The unique Cogniac media ID. This is generated for anything uploaded.
+	MediaId (string)		
+		The unique Cogniac media ID. This is generated for anything uploaded.
 
-	ExternalMediaId (string)	An external media ID provided by the user.
+	ExternalMediaId (string)	
+		An external media ID provided by the user.
 
-	TimeBase (object)		The time base of the media.
+	TimeBase (object)		
+		The time base of the media.
 
-	SourceUrl (string)		The source URL of the media, if provided.
+	SourceUrl (string)		
+		The source URL of the media, if provided.
 
-	AuthorProfileUrl (string)	The profile URL of the author.
+	AuthorProfileUrl (string)	
+		The profile URL of the author.
 
-	MediaSrc (string)		The source of the upload process of the media.
+	MediaSrc (string)		
+		The source of the upload process of the media.
 
-	ParentMediaId (string)		The parent media ID of the uploaded media, if available.
+	ParentMediaId (string)		
+		The parent media ID of the uploaded media, if available.
 
-	Md5 (string)			Md5 hash of the media.
+	Md5 (string)			
+		Md5 hash of the media.
 
-	ParentMediaIds (string array)	An array of strings containing the parent media IDs.
+	ParentMediaIds (string array)	
+		An array of strings containing the parent media IDs.
 
-	MetaTags (string array)		An array containing all the uploaded media's meta-tags.
+	MetaTags (string array)		
+		An array containing all the uploaded media's meta-tags.
 
-	License (string)		A string containing the uploaded media's license, if provided.
+	License (string)		
+		A string containing the uploaded media's license, if provided.
 
-	TenantId (string)		The tenant ID associated with the media.
+	TenantId (string)		
+		The tenant ID associated with the media.
 
-	CreatedAt (double)		Unix media creation timestamp.
+	CreatedAt (double)		
+		Unix media creation timestamp.
 
-	Author (string)			The author of the media uploaded, if provided.
+	Author (string)			
+		The author of the media uploaded, if provided.
 
-	PreviewUrl (string)		The preview URL of the media uploaded.
+	PreviewUrl (string)		
+		The preview URL of the media uploaded.
 
-	ImageHeight (long)		The image height of the media uploaded.
+	ImageHeight (long)		
+		The image height of the media uploaded.
 
-	MediaFormat (string)		The format of the media uploaded.
+	MediaFormat (string)		
+		The format of the media uploaded.
 
-	Title (string)			The user defined title of the uploaded media.
+	Title (string)			
+		The user defined title of the uploaded media.
+	
+# Class: Applications
+
+	Application (object array)	
+		Object array of type Cogniac.Application.
+	
+# Class: Application
+
+	RefreshFeedback (bool)	
+		Flag to refresh feedback.
+	
+	ApplicationId (string)
+		The application's unique ID.
+	
+	ValidationDataCount (long)
+		The validation data count.
+	
+	SystemFeedbackPerHour (long)	
+		The feedback per hour value.
+	
+	AppManagers (string array)
+		A list of the application managers.
+	
+	OutputSubjectsExternalIds (object) 
+		An object representing a list of output subject external ID
+		
+# Class: CaptureId
+
+	Id (string)
+		A capture ID returned when a media is associated to a subject.
+		
+# Class: Subjects
+
+	Subject (object array)
+		Object array of type Cogniac.Subject.
+		
+# Class: Subject
+
+	SubjectUid (string)
+		The unique ID of a given subject.
+		
+	Description (string)
+		The description string of a given subject.
+		
+	CreatedBy (string)
+		The string containing the creator of the subject.
+		
+	ConsensusSummary (object array)
+		Returns an array of Cogniac.ConsensusSummary objects.
+		
+	ExpiresIn (long)
+		The time remaining for the subject to expire.
+		
+	TenantId (string)
+		Tenant ID assocaited with the given subject.
+		
+	CreatedAt (double)
+		Time of creation of the given subject.
+		
+	ModifiedAt (double)
+		Last time when the given subject was modified.
+		
+	PublicWrite (bool)
+		If the subject can be written to publicly, this flag is set to true.
+		
+	ExternalId (string)
+		A string containing any useful external ID.
+		
+	PublicRead (bool)
+		If the subject can be read publicly, this flag is set to true.
+		
+	Name (string)
+		The given name of the subject.
+		
+# Class: ConsensusSummary
+
+	Count (long)
+		A count of the consensus summary.
+		
+	Consensus (string)
+		A string for the consensus.
+		
+	AppDataType (object)
+		An object used to show the application data type.
+		
+All classes can utilize the following methods:
+
+__Cogniac.[OBJECT].FromJson(json)__
+
+	Description:			Initializes any Cogniac object from a valid JSON string
+	
+	json (string):			(Required) The JSON string to use.
+
+	Return:				Cogniac.[OBJECT] - multi-member Cogniac object.
+
+__ToJson(object)__
+
+	Description:			Serializes any Cogniac.[OBJECT] to a valid JSON string.
+	
+	object (object):		(Required) The Cogniac.[OBJECT] to use.
+
+	Return:				A valid JSON string.
