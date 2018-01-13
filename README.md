@@ -163,7 +163,7 @@ The following are the objects used in the SDK and their members.
 	Tenants (object array)		
 		List of Tenant objects.
 	
-# Class: Tenants
+# Class: Tenant
 
 	TenantId (string)	
 		The tenant ID.
