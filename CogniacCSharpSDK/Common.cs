@@ -12,7 +12,7 @@ namespace Cogniac
             => JsonConvert.SerializeObject(self, Converter.Settings);
     }
 
-    public class Converter
+    internal class Converter
     {
         public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
@@ -21,7 +21,7 @@ namespace Cogniac
         };
     }
 
-    public class Helpers
+    internal class Helpers
     {
         public static string FlattenStringArray(string[] array)
         {
