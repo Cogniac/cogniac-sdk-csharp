@@ -156,6 +156,52 @@ __AssociateMediaToSubject(mediaId, subjectUid, forceFeedback)__
 
 	Return:				Cogniac.Tenant - multi-member object.
 
+__GetMedia(mediaId)__
+
+	Description:			Gets a Cogniac.Media object from a given media ID.
+	
+	mediaId (string):		(Required) The unique ID of the media.
+
+	Return:				Cogniac.Media - multi-member object.
+	
+__CreateApplication(name, type, description, inputSubjects, outputSubjects, releaseMetrics, detectionThresholds, detectionPostUrls, gatewayPostUrls, active, requestedFeedbackPerHour, refreshFeedback, appManagers)__
+
+	Description:			Creates an application in the Cogniac system.
+	
+	name (string):			(Required) Application name.
+
+	type (string):			(Required) Type of application 
+					(See API docs for valid types).
+
+	description (string):		(Optional) Application description.
+	
+	inputSubjects (string array)	(Optional) List of input subjects to use.
+	
+	outputSubjects (string array)	(Optional) List of output subjects to use.
+	
+	releaseMetrics (string)		(Optional) Release metrics string.
+	
+	detectionThresholds (Dict)	(Optional) String dictionary of detection thresholds.
+	
+	detectionPostUrls 		(Optional) URL's where model detections will be 
+	(string array)			surfaced in addition to web and iOS interfaces.
+					
+	gatewayPostUrls (string array)	(Optional) A list of URL's where model detections 
+					will be surfaced from the gateway.
+					
+	active (boolean)		(Optional) Controls if the the application is active or not.
+	
+	requestedFeedbackPerHour	(Optional) Override the target rate of feedback to 
+	(integer)			surface per hour.
+	
+	refreshFeedback (boolean)	(Optional) Flag to control whether the images waiting 
+					for user feedback should be re-evaluated by the new
+					model when a new model is released.
+					
+	appManagers (string array)	(Optional) List of the application managers.
+
+	Return:				Cogniac.Application - multi-member object.
+
 The following are the objects used in the SDK and their members.
 		
 # Class: AuthorizedTenants
