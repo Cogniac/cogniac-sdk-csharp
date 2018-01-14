@@ -204,10 +204,6 @@ namespace Cogniac
                 {
                     throw new ArgumentException(message: "No input file provided (fileName or sourceUrl");
                 }
-                var request = new RestRequest(Method.POST)
-                {
-                    AlwaysMultipartFormData = true
-                };
                 string mediaFormat = Path.GetExtension(fileName);
                 mediaFormat = mediaFormat.Replace(".", string.Empty);
                 if (mediaTimestamp <= 0)
@@ -280,6 +276,10 @@ namespace Cogniac
                     dict.Add("source_url", sourceUrl);
                 }
                 string data = Helpers.MapToQueryString(dict);
+                var request = new RestRequest(Method.POST)
+                {
+                    AlwaysMultipartFormData = true
+                };
                 request.AddFile("fileData", fileBytes, fileName);
                 IRestResponse response;
                 if (string.IsNullOrEmpty(localGatewayUrl))
@@ -477,6 +477,89 @@ namespace Cogniac
                 {
                     throw new WebException(message: "Network error.");
                 }
+            }
+        }
+
+        public Media GetMedia(string mediaId)
+        {
+            if (!String.IsNullOrEmpty(mediaId))
+            {
+                string fullUrl = $"{_urlPrefix}/media/{mediaId}";
+                var request = new RestRequest(Method.GET);
+                var response = ExecuteRequest(fullUrl, request);
+                if (response.IsSuccessful && (response.StatusCode == HttpStatusCode.OK))
+                {
+                    return Media.FromJson(response.Content);
+                }
+                else
+                {
+                    throw new WebException(message: "Network error while getting media.");
+                }
+            }
+            else
+            {
+                throw new ArgumentException(message: "The media ID provided is null or empty.");
+            }
+        }
+
+        public Application CreateApplication
+        (
+            string name,
+            string type,
+            string description = null,
+            string[] inputSubjects = null,
+            string[] outputSubjects = null,
+            string releaseMetrics = null,
+            Dictionary<string, string> detectionThresholds = null,
+            string[] detectionPostUrls = null,
+            string[] gatewayPostUrls = null,
+            bool active = false,
+            int? requestedFeedbackPerHour = null,
+            bool refreshFeedback = false,
+            string[] appManagers = null
+        )
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("message", nameof(name));
+            }
+            if (string.IsNullOrEmpty(type))
+            {
+                throw new ArgumentException("message", nameof(type));
+            }
+            Dictionary<string, object> dict = new Dictionary<string, object>
+            {
+                { "name", name },
+                { "type", type },
+            };
+            dict.AddIfNotNull("description", description);
+            dict.AddIfNotNull("input_subjects", Helpers.FlattenStringArray(inputSubjects));
+            dict.AddIfNotNull("output_subjects", Helpers.FlattenStringArray(outputSubjects));
+            dict.AddIfNotNull("release_metrics", releaseMetrics);
+            dict.AddIfNotNull("detection_post_urls", Helpers.FlattenStringArray(detectionPostUrls));
+            dict.AddIfNotNull("gateway_post_urls", Helpers.FlattenStringArray(gatewayPostUrls));
+            dict.AddIfNotNull("active", active);
+            dict.AddIfNotNull("requested_feedback_per_hour", requestedFeedbackPerHour);
+            dict.AddIfNotNull("refresh_feedback", refreshFeedback);
+            dict.AddIfNotNull("app_managers", Helpers.FlattenStringArray(appManagers));
+            if (detectionThresholds != null)
+            {
+                dict.AddIfNotNull("detection_thresholds", detectionThresholds.ToJson());
+            }
+            string data = Helpers.MapToQueryString(dict);
+            var request = new RestRequest(Method.POST)
+            {
+                AlwaysMultipartFormData = true
+            };
+            string fullUrl = $"{_urlPrefix}/applications?{data}";
+            var response = ExecuteRequest(fullUrl, request);
+            if (response.IsSuccessful && (response.StatusCode == HttpStatusCode.OK))
+            {
+                return Application.FromJson(response.Content);
+            }
+            else
+            {
+                throw new WebException(message: "Network error while creating application.");
             }
         }
     } // End of class

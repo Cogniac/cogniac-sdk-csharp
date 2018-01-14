@@ -57,10 +57,10 @@ namespace Cogniac
         public double? LastCandidateAt { get; set; }
 
         [JsonProperty("hpo_credit")]
-        public long HpoCredit { get; set; }
+        public long? HpoCredit { get; set; }
 
         [JsonProperty("candidate_model_count")]
-        public long CandidateModelCount { get; set; }
+        public long? CandidateModelCount { get; set; }
 
         [JsonProperty("release_metrics")]
         public string ReleaseMetrics { get; set; }

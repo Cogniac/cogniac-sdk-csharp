@@ -21,17 +21,20 @@ namespace Cogniac
         };
     }
 
-    internal class Helpers
+    internal static class Helpers
     {
         public static string FlattenStringArray(string[] array)
         {
-            string result = "[";
+            if (array == null)
+            {
+                return null;
+            }
+            string result = "";
             foreach (string s in array)
             {
-                result += "\"" + s + "\",";
+                result += s + ",";
             }
             result = result.TrimEnd(',');
-            result += "]";
             return result;
         }
 
@@ -78,6 +81,11 @@ namespace Cogniac
                 fs.Close();
             }
             return sContents;
+        }
+
+        public static void AddIfNotNull<T, U>(this Dictionary<T, U> dic, T key, U value) where U : class
+        {
+            if (value != null) { dic.Add(key, value); }
         }
     }
 }
