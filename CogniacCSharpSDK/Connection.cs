@@ -296,7 +296,7 @@ namespace Cogniac
                 }
                 else
                 {
-                    throw new WebException(message: "Network error.");
+                    throw new WebException(message: "Network error: " + response.Content);
                 }
             }
             else
@@ -333,7 +333,7 @@ namespace Cogniac
                 }
                 else
                 {
-                    throw new WebException(message: "Error deleting media.");
+                    throw new WebException(message: "Error deleting media: " + response.Content);
                 }
             }
             else
@@ -355,7 +355,7 @@ namespace Cogniac
                 }
                 else
                 {
-                    throw new WebException(message: "Network error while getting all subjects.");
+                    throw new WebException(message: "Network error while getting all subjects: " + response.Content);
                 }
             }
             else
@@ -377,7 +377,7 @@ namespace Cogniac
                 }
                 else
                 {
-                    throw new WebException(message: "Network error while getting subjects.");
+                    throw new WebException(message: "Network error while getting subjects: " + response.Content);
                 }
             }
             else
@@ -399,7 +399,7 @@ namespace Cogniac
                 }
                 else
                 {
-                    throw new WebException(message: "Network error while getting all applications.");
+                    throw new WebException(message: "Network error while getting all applications: " + response.Content);
                 }
             }
             else
@@ -421,7 +421,7 @@ namespace Cogniac
                 }
                 else
                 {
-                    throw new WebException(message: "Network error while getting application.");
+                    throw new WebException(message: "Network error while getting application: " + response.Content);
                 }
             }
             else
@@ -443,7 +443,7 @@ namespace Cogniac
                 }
                 else
                 {
-                    throw new WebException(message: "Network error while getting tenant.");
+                    throw new WebException(message: "Network error while getting tenant: " + response.Content);
                 }
             }
             else
@@ -475,7 +475,7 @@ namespace Cogniac
                 }
                 else
                 {
-                    throw new WebException(message: "Network error.");
+                    throw new WebException(message: "Network error: " + response.Content);
                 }
             }
         }
@@ -493,7 +493,7 @@ namespace Cogniac
                 }
                 else
                 {
-                    throw new WebException(message: "Network error while getting media.");
+                    throw new WebException(message: "Network error while getting media: " + response.Content);
                 }
             }
             else
@@ -559,7 +559,62 @@ namespace Cogniac
             }
             else
             {
-                throw new WebException(message: "Network error while creating application.");
+                throw new WebException(message: "Network error while creating application: " + response.Content);
+            }
+        }
+
+        public Subject CreateSubject
+        (
+            string name,
+            string description = null,
+            bool? publicRead = null,
+            bool? publicWrite = null
+        )
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("message", nameof(name));
+            }
+            Dictionary<string, object> dict = new Dictionary<string, object>
+            {
+                { "name", name }
+            };
+            dict.AddIfNotNull("description", description);
+            dict.AddIfNotNull("public_read", publicRead);
+            dict.AddIfNotNull("public_write", publicWrite);
+            string data = Helpers.MapToQueryString(dict);
+            var request = new RestRequest(Method.POST)
+            {
+                AlwaysMultipartFormData = true
+            };
+            string fullUrl = $"{_urlPrefix}/subjects?{data}";
+            var response = ExecuteRequest(fullUrl, request);
+            if (response.IsSuccessful && (response.StatusCode == HttpStatusCode.OK))
+            {
+                return Subject.FromJson(response.Content);
+            }
+            else
+            {
+                throw new WebException(message: "Network error while creating subject: " + response.Content);
+            }
+        }
+
+        public bool DeleteSubject(string subjectUid)
+        {
+            if (string.IsNullOrEmpty(subjectUid))
+            {
+                throw new ArgumentException("message", nameof(subjectUid));
+            }
+            string fullUrl = $"{_urlPrefix}/subjects/{subjectUid}";
+            var request = new RestRequest(Method.DELETE);
+            var response = ExecuteRequest(fullUrl, request);
+            if (response.IsSuccessful && (response.StatusCode == HttpStatusCode.NoContent))
+            {
+                return true;
+            }
+            else
+            {
+                throw new WebException(message: "Error deleting subject: " + response.Content );
             }
         }
     } // End of class
