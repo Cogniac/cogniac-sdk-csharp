@@ -101,7 +101,7 @@ __DeleteMedia(mediaId, localGatewayUrl)__
 
 	mediaId (string):		(Required) The media ID of the object to be deleted from the Cogniac system.
 
-	Return:				bool - 'true' on success, 'false' otherwise.
+	Return:				Boolean - 'true' on success, 'false' otherwise.
 	
 __GetAllSubjects(tenantId)__
 
@@ -164,6 +164,28 @@ __GetMedia(mediaId)__
 
 	Return:				Cogniac.Media - multi-member object.
 	
+__CreateSubject(name, description, publicRead, publicWrite)__
+
+	Description:			Create a subject in the Cogniac system.
+	
+	name (string):			(Required) The name of the subject.
+	
+	description (string):		(Optional) The description of the subject.
+	
+	publicRead (boolean):		(Optional) Flag to select if the subject can be read publicly.
+	
+	publicWrite (boolean):		(Optional) Flag to select if the subject can be written to publicly.
+	
+	Return:				Cogniac.Subject - multi-member object.
+	
+__DeleteSubject(subjectUid)__
+
+	Description:			Deletes a subject from the Cogniac system.
+	
+	subjectUid (string):		(Required) The unique ID of the subject to delete.
+	
+	Return:				Boolean - 'true' on success, 'false' otherwise.
+	
 __CreateApplication(name, type, description, inputSubjects, outputSubjects, releaseMetrics, detectionThresholds, detectionPostUrls, gatewayPostUrls, active, requestedFeedbackPerHour, refreshFeedback, appManagers)__
 
 	Description:			Creates an application in the Cogniac system.
@@ -175,30 +197,30 @@ __CreateApplication(name, type, description, inputSubjects, outputSubjects, rele
 
 	description (string):		(Optional) Application description.
 	
-	inputSubjects (string array)	(Optional) List of input subjects to use.
+	inputSubjects (string array):	(Optional) List of input subjects to use.
 	
-	outputSubjects (string array)	(Optional) List of output subjects to use.
+	outputSubjects (string array):	(Optional) List of output subjects to use.
 	
-	releaseMetrics (string)		(Optional) Release metrics string.
+	releaseMetrics (string):	(Optional) Release metrics string.
 	
-	detectionThresholds (Dict)	(Optional) String dictionary of detection thresholds.
+	detectionThresholds (Dict):	(Optional) String dictionary of detection thresholds.
 	
 	detectionPostUrls 		(Optional) URL's where model detections will be 
-	(string array)			surfaced in addition to web and iOS interfaces.
+	(string array):			surfaced in addition to web and iOS interfaces.
 					
-	gatewayPostUrls (string array)	(Optional) A list of URL's where model detections 
+	gatewayPostUrls (string array):	(Optional) A list of URL's where model detections 
 					will be surfaced from the gateway.
 					
-	active (boolean)		(Optional) Controls if the the application is active or not.
+	active (boolean):		(Optional) Controls if the the application is active or not.
 	
 	requestedFeedbackPerHour	(Optional) Override the target rate of feedback to 
-	(integer)			surface per hour.
+	(integer):			surface per hour.
 	
-	refreshFeedback (boolean)	(Optional) Flag to control whether the images waiting 
+	refreshFeedback (boolean):	(Optional) Flag to control whether the images waiting 
 					for user feedback should be re-evaluated by the new
 					model when a new model is released.
 					
-	appManagers (string array)	(Optional) List of the application managers.
+	appManagers (string array):	(Optional) List of the application managers.
 
 	Return:				Cogniac.Application - multi-member object.
 
