@@ -10,7 +10,7 @@ namespace Cogniac
     /// int result = Retry.Do(SomeFunctionWhichReturnsInt, TimeSpan.FromSeconds(1), 4);
     /// The above will try 4 times at a 1 second interval
     /// </summary>
-    public static class Retry
+    internal static class Retry
     {
         /// <summary>
         /// Main method which runs a retry-able action

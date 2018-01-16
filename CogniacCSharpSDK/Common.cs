@@ -6,8 +6,16 @@ using System.Net;
 
 namespace Cogniac
 {
+    /// <summary>
+    /// Class to serialize an objects
+    /// </summary>
     public static class Serialize
     {
+        /// <summary>
+        /// Serializes a given object to a valid JSON string
+        /// </summary>
+        /// <param name="self">The object to serialize</param>
+        /// <returns>A valid JSON string</returns>
         public static string ToJson(this object self)
             => JsonConvert.SerializeObject(self, Converter.Settings);
     }

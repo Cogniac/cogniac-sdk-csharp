@@ -1,16 +1,15 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CogCSharpSDK")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("CogniacCSharpSDK")]
+[assembly: AssemblyDescription("CSharp Client Library for the Cogniac Public API")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CogCSharpSDK")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCompany("Cogniac")]
+[assembly: AssemblyProduct("Cogniac")]
+[assembly: AssemblyCopyright("Copyright Cogniac © 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

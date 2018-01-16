@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Cogniac.CSharpSDK</id>
+    <version>1.0.0</version>
+    <authors>Al Alkadi</authors>
+    <owners>Cogniac</owners>
+    <iconUrl>https://cogniac.co/app/assets/images/cogniac-logo-ad919676d34ca45a6338c52ace622aba.svg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>CSharp Client Library for the Cogniac Public API</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright 2018 (c) Cogniac. All rights reserved.</copyright>
+    <tags>Cogniac CSharp SDK</tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="10.0.3" />
+      <dependency id="RestSharp" version="106.2.0" />
+	  <dependency id="System.ValueTuple" version="4.4.0" />
+    </dependencies>
+  </metadata>
+	<files>
+		<file src="CogniacCSharpSDK\bin\Release\CogniacCSharpSDK.dll" target="lib\Net461" />
+    <file src="CogniacCSharpSDK\bin\Release\CogniacCSharpSDK.xml" target="lib\Net461" />
+  </files>
+</package>
