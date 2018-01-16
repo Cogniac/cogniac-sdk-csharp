@@ -478,7 +478,7 @@ __Cogniac.[OBJECT].FromJson(json)__
 
 	Return:				Cogniac.[OBJECT] - multi-member Cogniac object.
 
-__ToJson(object)__
+__Cogniac.Serialize.ToJson(object)__
 
 	Description:			Serializes any Cogniac.[OBJECT] to a valid JSON string.
 	
