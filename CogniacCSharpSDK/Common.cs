@@ -78,7 +78,6 @@ namespace Cogniac
                 BinaryReader br = new BinaryReader(fs);
                 sContents = br.ReadBytes((int)fi.Length);
                 br.Close();
-                fs.Close();
             }
             return sContents;
         }

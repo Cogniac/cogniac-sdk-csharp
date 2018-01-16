@@ -91,9 +91,9 @@ namespace Cogniac
                 resp = Retry.Do(() => client.Execute(request), TimeSpan.FromSeconds(5), 3);
                 returnValue = AuthorizedTenants.FromJson(resp.Content);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
             return returnValue;
         }
