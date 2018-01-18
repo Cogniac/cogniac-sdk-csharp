@@ -145,7 +145,7 @@ __GetTenant(tenantId)__
 	
 __AssociateMediaToSubject(mediaId, subjectUid, forceFeedback)__
 
-	Description:			Gets a tenant's information given a tenant ID.
+	Description:			Associates an uploaded media to a given subject.
 	
 	mediaId (string):		(Required) The unique ID of the media.
 
