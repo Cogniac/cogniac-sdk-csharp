@@ -718,7 +718,7 @@ Get subjects, subject, applications, application and tenant
 	var app = cc.GetApplication(appId);
 	var t = cc.GetTenant(tenantId);
 
-Create a Cogniac Application
+Create a Cogniac application
 
 	var app = cc.CreateApplication("TestApp", "classification");
 	if (app != null)
@@ -727,7 +727,7 @@ Create a Cogniac Application
 		Console.WriteLine(Serialize.ToJson(app));
 	}
 
-Create a Cogniac Subject
+Create a Cogniac subject
 
 	var sub = cc.CreateSubject("test", "this is a test subject");
 	if (sub != null)
