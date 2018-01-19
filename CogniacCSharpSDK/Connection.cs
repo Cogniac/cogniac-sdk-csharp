@@ -184,21 +184,17 @@ namespace Cogniac
         /// <summary>
         /// Uploads media to the Cogniac system
         /// </summary>
+        /// <param name="forceSet">One of "training" or "validation"</param>
         /// <param name="fileName">File to upload</param>
         /// <param name="mediaTimestamp">Media time stamp</param>
-        /// <param name="parentMediaId">Parent media ID</param>
-        /// <param name="parentMediaIds">List of parent media ID's</param>
-        /// <param name="frame">Frame number</param>
         /// <param name="forceOverwrite">Force overwrite flag</param>
         /// <param name="metaTags">List of meta tags</param>
         /// <param name="isPublic">Public flag</param>
-        /// <param name="isVideo">Video flag</param>
         /// <param name="externalMediaId">External media ID</param>
         /// <param name="originalUrl">Original URL</param>
         /// <param name="originalLandingUrl">Original landing URL</param>
         /// <param name="license">License string</param>
         /// <param name="authorProfileUrl">Author profile URL</param>
-        /// <param name="author">Name of author</param>
         /// <param name="title">Title of media</param>
         /// <param name="sourceUrl">Source URL</param>
         /// <param name="previewUrl">Preview URL</param>
@@ -206,21 +202,17 @@ namespace Cogniac
         /// <returns>Cogniac.Media object</returns>
         public Media UploadMedia
         (
+            string forceSet = null,
             string fileName = null,
             long mediaTimestamp = 0,
-            string parentMediaId = null,
-            string[] parentMediaIds = null,
-            int frame = 0,
             bool forceOverwrite = true,
             string[] metaTags = null,
             bool isPublic = false,
-            bool isVideo = false,
             string externalMediaId = null,
             string originalUrl = null,
             string originalLandingUrl = null,
             string license = null,
             string authorProfileUrl = null,
-            string author = null,
             string title = null,
             string sourceUrl = null,
             string previewUrl = null,
@@ -267,19 +259,14 @@ namespace Cogniac
                     { "filename", fileName },
                     { "force_overwrite", forceOverwrite },
                     { "public", isPublic },
-                    { "video", isVideo },
                 };
-                if (isVideo == true)
+                if (forceSet.ToLower().Equals("training"))
                 {
-                    dict.Add("frame", frame);
+                    dict.Add("force_set", "training");
                 }
-                if (!String.IsNullOrEmpty(parentMediaId))
+                else if (forceSet.ToLower().Equals("validation"))
                 {
-                    dict.Add("parent_media_id", parentMediaId);
-                }
-                if (!(parentMediaIds == null))
-                {
-                    dict.Add("parent_media_ids", Helpers.FlattenStringArray(parentMediaIds));
+                    dict.Add("force_set", "validation");
                 }
                 if (!(metaTags == null))
                 {
@@ -304,10 +291,6 @@ namespace Cogniac
                 if (!String.IsNullOrEmpty(authorProfileUrl))
                 {
                     dict.Add("author_profile_url", authorProfileUrl);
-                }
-                if (!String.IsNullOrEmpty(author))
-                {
-                    dict.Add("author", author);
                 }
                 if (!String.IsNullOrEmpty(title))
                 {

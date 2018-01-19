@@ -2,13 +2,21 @@
 <package >
   <metadata>
     <id>Cogniac.CSharpSDK</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <authors>Al Alkadi</authors>
     <owners>Cogniac</owners>
     <iconUrl>https://cogniac.co/app/assets/images/cogniac-logo-ad919676d34ca45a6338c52ace622aba.svg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>CSharp Client Library for the Cogniac Public API</description>
-    <releaseNotes>Initial release.</releaseNotes>
+    <releaseNotes>
+		* Added forceSet to UploadMedia.
+		* Removed ParentMediaId and ParentMediaIds from UploadMedia.
+		* Removed IsVideo from UploadMedia.
+		* Initial Check-in for CogUpload utility.
+		* NuGet package updated to 1.0.1.
+		* Updated all documentation.
+		* SDK now version 1.0.0.1.
+	</releaseNotes>
     <copyright>Copyright 2018 (c) Cogniac. All rights reserved.</copyright>
     <tags>Cogniac CSharp SDK</tags>
     <dependencies>
@@ -19,6 +27,8 @@
   </metadata>
 	<files>
 		<file src="CogniacCSharpSDK\bin\Release\CogniacCSharpSDK.dll" target="lib\Net461" />
-    <file src="CogniacCSharpSDK\bin\Release\CogniacCSharpSDK.xml" target="lib\Net461" />
-  </files>
+		<file src="CogniacCSharpSDK\bin\Release\CogniacCSharpSDK.xml" target="lib\Net461" />
+		<file src="CogniacUploadTool\bin\Release\CogUpload.exe" target="lib\Net461" />
+		<file src="CogniacUploadTool\bin\Release\CogUpload.exe.config" target="lib\Net461" />
+	</files>
 </package>
