@@ -634,3 +634,114 @@ Depends on all the "Release" DLLs output from the 'CogniacCSharpSDK' project.
 	   Example 2:  CogUpload -dirName C:\Path\To\Images -u MYUSER -p MYPASSWORD -tid ABC123 -suid DEF456
 	   Example 3:  CogUpload -fileName C:\Path\To\Image.png -token ABCDEF123456
 		       -mtg John+Doe BlackBerry Android+7.1.1 -IsPublic True -ff True -suid DEF456
+		       
+# SDK Usage Examples
+
+All the examples assume: 'using Cogniac;'
+
+Connecting to Cogniac with username, password and tenant ID.
+
+	var cc = new Connection("someUser@company.com", "MyPassword", "ValidTenantID");
+	if (cc != null)
+	{
+		var ao = cc.GetAuthObject();
+		if (ao != null)
+		{
+			// Get the token for later use
+			string token = ao.AccessToken;
+		}
+	}
+
+Connecting to Cogniac with a token.
+
+	string token = "ValidTokenSequence";
+	var cc = new Connection cc = new Connection(token: token);
+	if (cc != null)
+	{
+		// The rest of the program
+	}
+
+Connecting to Cogniac with a username and password but no tenant ID. (username is assumed to have 1 tenant)
+
+	var at = Connection.GetAllAuthorizedTenants("someUser@company.com", "MyPassword");
+	if (at != null)
+	{
+		// Object 'at' will contain all the authorized tenants of this user, we use the first one
+		var cc = new Connection("someUser@company.com", "MyPassword", at.Tenants[0].TenantId);
+		var ao = cc.GetAuthObject();
+		if (ao != null)
+		{
+			// Get the token for later use
+			string token = ao.AccessToken;
+		}	
+	}
+
+The following examples will assume a Cogniac.Connection object 'cc' has already been created properly.
+
+Uploading a media item and associating it with a subject
+
+	string subjectUid = "KnownSubjectId";
+	bool forceFeedback = true;
+	string[] tags = new string[] {"Media Owner", "BlackBerry KeyOne", "Android 7.1.1"};
+	string fullFileName = "Path\To\Image.jpg";
+	var m = cc.UploadMedia(fileName: fullFileName, metaTags: tags, forceOverwrite: true, isPublic: false);
+	if (m != null)
+	{
+		var ci = _con.AssociateMediaToSubject(m.MediaId, subjectUid, forceFeedback);
+		if (ci != null)
+		{
+			Console.WriteLine($"Association successful. CaptureId: '{ci.Id}'");
+		}
+	}
+
+Deleting a media from the Cogniac system
+
+	string mediaId = "KnownMediaId";
+	if (cc.DeleteMedia(mediaId))
+	{
+		Console.WriteLine("Media deleted");
+	}
+	else
+	{
+		Console.WriteLine("Error deleting media");
+	}
+
+Get subjects, subject, applications, application and tenant
+
+	string tenantId = "KnownTenantId";
+	string subjectUid = "KnownSubjectUid";
+	string appId = "KnownApplicationId";
+
+	var subjects = cc.GetAllSubjects(tenantId);
+	var subject cc.GetSubject(subjectUid);
+	var apps = cc.GetAllApplications(tenantId);
+	var app = cc.GetApplication(appId);
+	var t = cc.GetTenant(tenantId);
+
+Create a Cogniac Application
+
+	var app = cc.CreateApplication("TestApp", "classification");
+	if (app != null)
+	{
+		// Application created properly, view it in JSON
+		Console.WriteLine(Serialize.ToJson(app));
+	}
+
+Create a Cogniac Subject
+
+	var sub = cc.CreateSubject("test", "this is a test subject");
+	if (sub != null)
+	{
+		// Subject created properly, view it in JSON
+		Console.WriteLine(Serialize.ToJson(sub));
+	}
+
+Get subject media associations
+
+	string subjectUid = "KnownSubjectUid";
+	var sma = cc.GetSubjectMediaAssociations(subjectUid);
+
+Get media subjects
+
+	string mediaId = "KnownMediaId";
+	var ms = cc.GetMediaSubjects(mediaId);
