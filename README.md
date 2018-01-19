@@ -227,6 +227,14 @@ __GetSubjectMediaAssociations(subjectUid)__
 	subjectUid (string):		(Required) The subject UID to pass to the API.
 
 	Return:				Cogniac.SubjectMediaAssociations - multi-member object.
+	
+__GetMediaSubjects(mediaId)__
+
+	Description:			Gets the subjects associated to a given media ID.
+	
+	mediaId (string):		(Required) The unique ID of the media.
+
+	Return:				Cogniac.MediaSubjects - multi-member object.
 
 The following are the objects used in the SDK and their members.
 		
@@ -544,6 +552,11 @@ The following are the objects used in the SDK and their members.
 
 	Next (string)
 		Next page property value.
+
+# Class: MediaSubjects
+
+	Data (object)
+		Data array containing media subjects
 		
 All classes can utilize the following methods:
 
