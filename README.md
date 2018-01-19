@@ -680,7 +680,7 @@ The following examples will assume a Cogniac.Connection object 'cc' has already 
 
 Uploading a media item and associating it with a subject
 
-	string subjectUid = "KnownSubjectId";
+	string subjectUid = "KnownSubjectUid";
 	bool forceFeedback = true;
 	string[] tags = new string[] {"Media Owner", "BlackBerry KeyOne", "Android 7.1.1"};
 	string fullFileName = "Path\To\Image.jpg";
