@@ -481,3 +481,60 @@ __Cogniac.Serialize.ToJson(object)__
 	object (object):		(Required) The Cogniac.[OBJECT] to use.
 
 	Return:				A valid JSON string.
+	
+# Utility: CogUpload.exe
+
+	Usage: CogUpload [-OPTION1 [ARG1]] [-OPTION2 [ARG1] [ARG2] [ARG3] ...] [-OPTION3 [ARG1]] ...
+
+	   * All options starts with '-' followed by a space after the option.
+	   * Arguments to each option follow the option directly.
+	   * If an option takes an array, the members are provided as space separated arguments.
+	   * All options take a single string argument unless specified.
+
+	List of available options:
+
+	-fs   | -forceSet           Either 'training' or 'validation', don't provide it otherwise.
+	-f    | -FileName           Full path and file name of meida.
+	-d    | -Dirname            Directory of media files to process.
+	-u    | -Username           Cogniac issued username.
+	-p    | -Password           Cogniac issued password.
+	-tid  | -TenantId           Valid Cogniac tenant ID.
+	-tk   | -Token              Valid Cogniac access token.
+	-up   | -UrlPrefix          URL prefix of the Cogniac API.
+	-lgu  | -LocalGatewayUrl    Local gateway URL.
+	-mt   | -MediaTimestamp     Time stamp of the media.
+	-ff   | -ForceFeedback      ['True' or 'False' (default)] Force feedback after upload.
+	-fow  | -ForceOverwrite     ['True' (default) or 'False'] Force overwrite of media.
+	-mtg  | -MetaTags           [Array] List of meta tags of the media.
+	-isp  | -IsPublic           ['True' or 'False' (default)] Set media to public.
+	-emid | -ExternalMediaId    External media ID.
+	-ou   | -OriginalUrl        Original media URL.
+	-olu  | -OriginalLandingUrl Original landing URL.
+	-l    | -License            License link or text of the media.
+	-apu  | -AuthorProfileUrl   Author profile URL.
+	-t    | -Title              Title of the media.
+	-su   | -SourceUrl          Source URL of the media.
+	-pu   | -PreviewUrl         Preview URL of the media.
+	-suid | -SubjectUid         The Cogniac subject to associate the media with.
+	-r    | -recursive          ['True' or 'False' (default)] Recursively upload files in 'DirName'.
+	-h    | -Help               Displays this help message.
+
+	   Note 1: 'TenantId' must always be provided unless 'Token' is used.
+	   Note 2: Either use 'Token' or 'Username' and 'Password' but not both. If both are provided 'Token'
+		   will be used and 'Username' and 'Password' will be ignored.
+	   Note 3: 'SubjectUid' must always be provided. It applies to all 'FileName' and/or 'DirName' uploads.
+	   Note 4: 'if 'DirName' is provided, all media within the directory will be uploaded recursively.
+	   Note 5: 'MediaTimestamp', 'ExternalMediaId', 'SourceUrl', 'OriginalUrl', 'OriginalLandingUrl',
+		   'Title', 'SourceUrl' and 'PreviewUrl' are single media file options only and cannot be
+		   applied to an entire directory. The rest of the options apply to every media file within
+		   the provided directory to process.
+	   Note 6: If both 'FileName and 'DirName' are provided, the single file will process first
+		   then the entire directory will process second.
+	   Note 7: Spaces in any string feild are NOT permitted, please use '+' instead.
+		   For example: '-f my image.png' is invalid, use '-f my+image.png' instead.
+	   Note 8: Options are NOT case-sensitive.
+
+	   Example 1:  CogUpload -f C:\Path\To\Image.png -u MYUSER -p MYPASSWORD -tid ABC123 -suid DEF456
+	   Example 2:  CogUpload -dirName C:\Path\To\Images -u MYUSER -p MYPASSWORD -tid ABC123 -suid DEF456
+	   Example 3:  CogUpload -fileName C:\Path\To\Image.png -token ABCDEF123456
+		       -mtg John+Doe BlackBerry Android+7.1.1 -IsPublic True -ff True -suid DEF456
