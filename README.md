@@ -49,7 +49,7 @@ __GetAuth()__
 	Return:				Cogniac.Auth - multi-member object.
 		
 __UploadMedia(fileName, mediaTimestamp, parentMediaId, parentMediaIds, frame, 
-		forceOverwrite, metaTags, isPubli, isVideo, externalMediaId, 
+		forceOverwrite, metaTags, isPublic, isVideo, externalMediaId, 
 		originalUrl, originalLandingUrl, license, authorProfileUrl, author, 
 		title, sourceUrl, previewUrl, localGatewayUrl)__
 		
