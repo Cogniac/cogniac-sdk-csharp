@@ -745,5 +745,32 @@ namespace Cogniac
                 throw new ArgumentException(message: "The subject UID provided is null or empty.");
             }
         }
+
+        /// <summary>
+        /// Get the subjects associated with a given media
+        /// </summary>
+        /// <param name="mediaId">Media ID</param>
+        /// <returns>Cogniac.MediaSubjects</returns>
+        public MediaSubjects GetMediaSubjects(string mediaId)
+        {
+            if (!String.IsNullOrEmpty(mediaId))
+            {
+                string fullUrl = $"{_urlPrefix}/media/{mediaId}/subjects";
+                var request = new RestRequest(Method.GET);
+                var response = ExecuteRequest(fullUrl, request);
+                if (response.IsSuccessful && (response.StatusCode == HttpStatusCode.OK))
+                {
+                    return MediaSubjects.FromJson(response.Content);
+                }
+                else
+                {
+                    throw new WebException(message: "Network error while getting media subjects: " + response.Content);
+                }
+            }
+            else
+            {
+                throw new ArgumentException(message: "The media ID provided is null or empty.");
+            }
+        }
     } // End of class
 }
