@@ -48,24 +48,20 @@ __GetAuth()__
 		
 	Return:				Cogniac.Auth - multi-member object.
 		
-__UploadMedia(fileName, mediaTimestamp, parentMediaId, parentMediaIds, frame, 
-		forceOverwrite, metaTags, isPublic, isVideo, externalMediaId, 
-		originalUrl, originalLandingUrl, license, authorProfileUrl, author, 
-		title, sourceUrl, previewUrl, localGatewayUrl)__
+__UploadMedia(forceSet, fileName, mediaTimestamp, forceOverwrite, metaTags, isPublic, externalMediaId, 
+		originalUrl, originalLandingUrl, license, authorProfileUrl, author, title, sourceUrl, 
+		previewUrl, localGatewayUrl)__
 		
 	Description:			Uploads a media file to the Cogniac system.
 		
+	forceSet (string) 		(Optional) One of "training" or "validation", null otherwise.
+					When it is null, it is random.
+	
 	fileName (string):		(Optional) The full path and file name of media item 
 					to upload. If this is not provided, sourceUrl must be provided instead.
 		
 	mediaTimestamp (long):		(Optional) User-specified image timestamp.
-
-	parentMediaId (string):		(Optional) Cogniac ID of the parent media to this item.
-
-	parentMediaIds (string array):	(Optional) Array of parent media_ids from which the media was derived.
-
-	frame (integer):		(Optional) The frame number of this media item in its parent video media.
-		
+	
 	forceOverwrite (boolean):	(Optional) Overwrite any existing, identical media files and metadata.
 
 	metaTags (string array):	(Optional) Other associated metadata.
