@@ -30,7 +30,7 @@ __Cogniac.Connection(username, password, tenantId, token, urlPrefix)__
 	urlPrefix (string):         	(Optional) Do not use this parameter unless the API has 
 					been relocated to a different address. The default value is always used.
 
-The following are methods members of the CogniacConnection object:
+The following are methods are members of the Cogniac.Connection object:
 
 __GetAllAuthorizedTenants(username, password, urlPrefix)__
 		
