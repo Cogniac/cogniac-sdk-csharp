@@ -219,6 +219,14 @@ __CreateApplication(name, type, description, inputSubjects, outputSubjects, rele
 	appManagers (string array):	(Optional) List of the application managers.
 
 	Return:				Cogniac.Application - multi-member object.
+	
+__GetSubjectMediaAssociations(subjectUid)__
+
+	Description:			Gets the subject media association given a subject UID.
+	
+	subjectUid (string):		(Required) The subject UID to pass to the API.
+
+	Return:				Cogniac.SubjectMediaAssociations - multi-member object.
 
 The following are the objects used in the SDK and their members.
 		
@@ -453,6 +461,27 @@ The following are the objects used in the SDK and their members.
 	Name (string)
 		The given name of the subject.
 		
+	MediaId (string)
+		Media ID property.
+		
+	Probability (double)
+		Probability value.
+		
+	Focus (object)
+		Focus data.
+		
+	AppDataType (string)
+		Application data type.
+		
+	UpdatedAt (double)
+		Updated at time.
+		
+	Consensus (string)
+		Consensus data string.
+		
+	AppData (object)
+		Application data object.
+		
 # Class: ConsensusSummary
 
 	Count (long)
@@ -463,6 +492,58 @@ The following are the objects used in the SDK and their members.
 		
 	AppDataType (object)
 		An object used to show the application data type.
+		
+# Class: SubjectMediaAssociations
+
+	Paging (object)
+		The object for paging.
+	
+	Data (object array)
+		Data on the current page.
+		
+# Class: Datum
+
+	OtherMedia (object array)
+		Other media property
+		
+	Media (object)
+		Media object associated.
+		
+	Focus (object)
+		Focus data.
+		
+	MediaList (object array)
+		Media objects list.
+		
+	Subject (object)
+		Subject object associated.
+
+# Class: AppDatum
+
+	Box (object)
+		Box data object.
+		
+	Probability (double)
+		Probability value.
+		
+# Class: Box
+
+	Y1 (long)
+		Y1 value.
+		
+	Y0 (long)
+		Y0 value.
+		
+	X1 (long)
+		X1 value.
+		
+	X0 (long)
+		X0 value.
+		
+# Class: Paging
+
+	Next (string)
+		Next page property value.
 		
 All classes can utilize the following methods:
 
