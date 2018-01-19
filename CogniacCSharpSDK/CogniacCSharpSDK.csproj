@@ -57,6 +57,7 @@
     <Compile Include="Connection.cs" />
     <Compile Include="Media.cs" />
     <Compile Include="CSharpSDK.cs" />
+    <Compile Include="SubjectMediaAssociations.cs" />
     <Compile Include="Subjects.cs" />
     <Compile Include="AuthorizedTenants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

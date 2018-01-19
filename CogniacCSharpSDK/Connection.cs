@@ -427,7 +427,7 @@ namespace Cogniac
             }
             else
             {
-                throw new ArgumentException(message: "The subject ID provided is null or empty.");
+                throw new ArgumentException(message: "The subject UID provided is null or empty.");
             }
         }
 
@@ -716,6 +716,33 @@ namespace Cogniac
             else
             {
                 throw new WebException(message: "Error deleting subject: " + response.Content );
+            }
+        }
+
+        /// <summary>
+        /// Gets the subject media associations given a subject UID
+        /// </summary>
+        /// <param name="subjectUid">Subject UID</param>
+        /// <returns>Cogniac.SubjectMediaAssociations object</returns>
+        public SubjectMediaAssociations GetSubjectMediaAssociations(string subjectUid)
+        {
+            if (!String.IsNullOrEmpty(subjectUid))
+            {
+                string fullUrl = $"{_urlPrefix}/subjects/{subjectUid}/media";
+                var request = new RestRequest(Method.GET);
+                var response = ExecuteRequest(fullUrl, request);
+                if (response.IsSuccessful && (response.StatusCode == HttpStatusCode.OK))
+                {
+                    return SubjectMediaAssociations.FromJson(response.Content);
+                }
+                else
+                {
+                    throw new WebException(message: "Network error while getting subject media associations: " + response.Content);
+                }
+            }
+            else
+            {
+                throw new ArgumentException(message: "The subject UID provided is null or empty.");
             }
         }
     } // End of class
