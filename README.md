@@ -484,6 +484,8 @@ __Cogniac.Serialize.ToJson(object)__
 	
 # Utility: CogUpload.exe
 
+Depends on all the "Release" DLLs output from the 'CogniacCSharpSDK' project.
+
 	Usage: CogUpload [-OPTION1 [ARG1]] [-OPTION2 [ARG1] [ARG2] [ARG3] ...] [-OPTION3 [ARG1]] ...
 
 	   * All options starts with '-' followed by a space after the option.
