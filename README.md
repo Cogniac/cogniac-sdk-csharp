@@ -22,7 +22,7 @@ __Cogniac.Connection(username, password, tenantId, token, urlPrefix)__
 					This is only required if the user is a member of multiple 
 					tenants. If tenant_id is not provided, and the user is a member 
 					of multiple tenant then the contents of the COG_TENANT 
-					environment variable is used as the tenant_id.
+					environment variable is used as the tenant id.
 
 	token (string):             	(Optional) If a known API access token is provided, it can be 
 					used instead of all other parameters. (This approach is recommended). 
@@ -30,7 +30,7 @@ __Cogniac.Connection(username, password, tenantId, token, urlPrefix)__
 	urlPrefix (string):         	(Optional) Do not use this parameter unless the API has 
 					been relocated to a different address. The default value is always used.
 
-The following are methods are members of the Cogniac.Connection object:
+The following methods are members of the Cogniac.Connection object:
 
 __GetAllAuthorizedTenants(username, password, urlPrefix)__
 		
