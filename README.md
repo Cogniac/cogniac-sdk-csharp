@@ -197,7 +197,7 @@ __CreateApplication(name, type, description, inputSubjects, outputSubjects, rele
 	
 	releaseMetrics (string):	(Optional) Release metrics string.
 	
-	detectionThresholds (Dict):	(Optional) String dictionary of detection thresholds.
+	detectionThresholds (dict):	(Optional) String dictionary of detection thresholds.
 	
 	detectionPostUrls 		(Optional) URL's where model detections will be 
 	(string array):			surfaced in addition to web and iOS interfaces.
