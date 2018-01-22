@@ -49,7 +49,7 @@ __GetAuth()__
 	Return:				Cogniac.Auth - multi-member object.
 		
 __UploadMedia(forceSet, fileName, mediaTimestamp, forceOverwrite, metaTags, isPublic, externalMediaId, 
-		originalUrl, originalLandingUrl, license, authorProfileUrl, author, title, sourceUrl, 
+		originalUrl, originalLandingUrl, license, authorProfileUrl, title, sourceUrl, 
 		previewUrl, localGatewayUrl)__
 		
 	Description:			Uploads a media file to the Cogniac system.
@@ -76,9 +76,7 @@ __UploadMedia(forceSet, fileName, mediaTimestamp, forceOverwrite, metaTags, isPu
 
 	license (string):		(Optional) License information about this media.
 
-	authorProfileUrl (string):	(Optional) URL of the media owner.
-
-	author (string):		(Optional) Name of the media owner.
+	authorProfileUrl (string):	(Optional) Profile URL of the media owner.
 
 	title (string):			(Optional) Title of this media.
 
