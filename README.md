@@ -54,7 +54,7 @@ __UploadMedia(forceSet, fileName, mediaTimestamp, forceOverwrite, metaTags, isPu
 		
 	Description:			Uploads a media file to the Cogniac system.
 		
-	forceSet (string) 		(Optional) One of "training" or "validation", null otherwise.
+	forceSet (string): 		(Optional) One of "training" or "validation", null otherwise.
 					When it is null, it is random.
 	
 	fileName (string):		(Optional) The full path and file name of media item 
