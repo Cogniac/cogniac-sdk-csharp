@@ -145,7 +145,7 @@ __AssociateMediaToSubject(mediaId, subjectUid, forceFeedback)__
 
 	subjectUid (string):		(Required) The unique subject UID to associate the media with.
 
-	foreFeedback (bool):		(Optional) Forces the cogniac system to use the media for feedback.
+	foreFeedback (boolean):		(Optional) Forces the cogniac system to use the media for feedback.
 					This value defaults to false if.
 
 	Return:				Cogniac.Tenant - multi-member object.
