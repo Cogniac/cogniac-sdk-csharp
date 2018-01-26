@@ -587,7 +587,7 @@ Depends on all the "Release" DLLs output from the 'CogniacCSharpSDK' project.
 
 	List of available options:
 
-	-fs   | -forceSet           Either 'training' or 'validation', don't provide it otherwise.
+	-fs   | -ForceSet           Either 'training' or 'validation', don't provide it otherwise.
 	-f    | -FileName           Full path and file name of meida.
 	-d    | -Dirname            Directory of media files to process.
 	-u    | -Username           Cogniac issued username.
@@ -610,7 +610,7 @@ Depends on all the "Release" DLLs output from the 'CogniacCSharpSDK' project.
 	-su   | -SourceUrl          Source URL of the media.
 	-pu   | -PreviewUrl         Preview URL of the media.
 	-suid | -SubjectUid         The Cogniac subject to associate the media with.
-	-r    | -recursive          ['True' or 'False' (default)] Recursively upload files in 'DirName'.
+	-r    | -Recursive          ['True' or 'False' (default)] Recursively upload files in 'DirName'.
 	-h    | -Help               Displays this help message.
 
 	   Note 1: 'TenantId' must always be provided unless 'Token' is used.
