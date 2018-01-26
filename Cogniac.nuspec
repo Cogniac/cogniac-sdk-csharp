@@ -2,24 +2,28 @@
 <package >
   <metadata>
     <id>Cogniac.CSharpSDK</id>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <authors>Al Alkadi</authors>
     <owners>Cogniac</owners>
     <iconUrl>https://cogniac.co/app/assets/images/cogniac-logo-ad919676d34ca45a6338c52ace622aba.svg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>CSharp Client Library for the Cogniac Public API</description>
     <releaseNotes>
-		* Added MediaSubjects class.
-		* Added GetMediaSubjects() function call.
-		* NuGet package updated to 1.0.4.
-		* SDK now version 1.0.0.3.
+		* Fixed a bug in UploadMedia function where forceSet parameter couldn't be null.
+		* Removed Unit Tests project from solution.
+		* C# SDK is now version 1.0.0.4.
+		* Added License and Project Url to NuGet package spec.
+		* CogUpload utility is now version 1.0.0.1.
+		* Updated license information.
 	</releaseNotes>
     <copyright>Copyright 2018 (c) Cogniac. All rights reserved.</copyright>
     <tags>Cogniac CSharp SDK</tags>
+    <projectUrl>https://github.com/Cogniac/cogniac-sdk-csharp</projectUrl>
+    <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0.txt</licenseUrl>
     <dependencies>
       <dependency id="Newtonsoft.Json" version="10.0.3" />
       <dependency id="RestSharp" version="106.2.0" />
-	  <dependency id="System.ValueTuple" version="4.4.0" />
+      <dependency id="System.ValueTuple" version="4.4.0" />
     </dependencies>
   </metadata>
 	<files>
@@ -27,5 +31,5 @@
 		<file src="CogniacCSharpSDK\bin\Release\CogniacCSharpSDK.xml" target="lib\Net461" />
 		<file src="CogniacUploadTool\bin\Release\CogUpload.exe" target="content\bin\Release" />
 		<file src="CogniacUploadTool\bin\Release\CogUpload.exe.config" target="content\bin\Release" />
-	</files>
+    </files>
 </package>

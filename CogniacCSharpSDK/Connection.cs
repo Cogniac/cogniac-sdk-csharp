@@ -1,4 +1,20 @@
-﻿using System;
+﻿/*
+    Copyright 2018 Cogniac Corporation.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/
+
+using System;
 using System.IO;
 using System.Collections.Generic;
 using RestSharp;
@@ -260,13 +276,16 @@ namespace Cogniac
                     { "force_overwrite", forceOverwrite },
                     { "public", isPublic },
                 };
-                if (forceSet.ToLower().Equals("training"))
+                if (!String.IsNullOrEmpty(forceSet))
                 {
-                    dict.Add("force_set", "training");
-                }
-                else if (forceSet.ToLower().Equals("validation"))
-                {
-                    dict.Add("force_set", "validation");
+                    if (forceSet.ToLower().Equals("training"))
+                    {
+                        dict.Add("force_set", "training");
+                    }
+                    else if (forceSet.ToLower().Equals("validation"))
+                    {
+                        dict.Add("force_set", "validation");
+                    }
                 }
                 if (!(metaTags == null))
                 {
