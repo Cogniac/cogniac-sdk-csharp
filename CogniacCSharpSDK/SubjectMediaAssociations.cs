@@ -118,7 +118,7 @@ namespace Cogniac
         /// Application data object
         /// </summary>
         [JsonProperty("app_data")]
-        public AppDatum[] AppData { get; set; }
+        public dynamic AppData { get; set; }
     }
 
     /// <summary>
