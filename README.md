@@ -30,7 +30,7 @@ __Cogniac.Connection(username, password, tenantId, token, urlPrefix, autoRenewTo
 	urlPrefix (string):         	(Optional) Do not use this parameter unless the API has 
 					been relocated to a different address. The default value is always used.
 					
-	autoRenewToken (boolean):	(Optional) allows the generated token to renew automatically 
+	autoRenewToken (boolean):	(Optional) Allows the generated token to renew automatically 
 					once it expires mid-execution. The default value is true.
 
 The following methods are members of the Cogniac.Connection object:
