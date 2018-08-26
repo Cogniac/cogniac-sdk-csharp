@@ -21,6 +21,7 @@ using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Deserializers;
 using System.Net;
+using System.Timers;
 
 namespace Cogniac
 {
@@ -35,6 +36,10 @@ namespace Cogniac
         private string _tenantId = "";
         private string _providedToken = "";
         private Auth _authObject = null;
+        private bool _autoRenewToken = true;
+        private long? _tokenExpiresIn = 0;
+        private Timer _tokenTimer;
+        private const uint _expirationOffset = 30;
 
         /// <summary>
         /// Main class to establish a connection to the Cogniac public API.
@@ -44,13 +49,16 @@ namespace Cogniac
         /// <param name="tenantId">Tenant ID</param>
         /// <param name="token">Access Token</param>
         /// <param name="urlPrefix">URL Prefix</param>
-        public Connection(string username = "", string password = "", string tenantId = "", string token = "", string urlPrefix = "https://api.cogniac.io/1")
+        /// <param name="autoRenewToken">Auto Renew Access Token</param>
+        public Connection(string username = "", string password = "", string tenantId = "", string token = "", string urlPrefix = "https://api.cogniac.io/1", bool autoRenewToken = true)
         {
             _username = username;
             _password = password;
             _providedToken = token;
             _tenantId = tenantId;
-            _urlPrefix = urlPrefix;            
+            _urlPrefix = urlPrefix;
+            _autoRenewToken = autoRenewToken;
+
             // if token is provided, no need to validate other input data
             if (string.IsNullOrEmpty(_providedToken))
             {
@@ -82,10 +90,45 @@ namespace Cogniac
             {
                 _authObject = Auth.FromJson(resp.Content);
                 _providedToken = _authObject.AccessToken;
+                _tokenExpiresIn = _authObject.ExpiresIn;
+                if (_autoRenewToken == true)
+                {
+                    if (_tokenExpiresIn != null)
+                    {
+                        _tokenTimer = new Timer();
+                        _tokenTimer.Elapsed += new ElapsedEventHandler(OnTokenTimedEvent);
+                        _tokenTimer.Interval = TimeSpan.FromSeconds((double)(_tokenExpiresIn - _expirationOffset)).TotalMilliseconds;
+                        _tokenTimer.Enabled = true;
+                        _tokenTimer.Start();
+                    }
+                }
             }
             catch
             {
                 throw new ArgumentException(message: resp.Content);
+            }
+        }
+
+        private void OnTokenTimedEvent(object source, ElapsedEventArgs e)
+        {
+            string fullUrl = $"{_urlPrefix}/oauth/token?tenant_id={_tenantId}";
+            var client = new RestClient(fullUrl);
+            var request = new RestRequest(Method.GET);
+            IRestResponse resp = null;
+            try
+            {
+                client.Authenticator = new HttpBasicAuthenticator(_username, _password);
+                client.AddHandler("application/json", new JsonDeserializer());
+                request.AddHeader("Cache-Control", "no-cache");
+                resp = Retry.Do(() => client.Execute(request), TimeSpan.FromSeconds(5), 3);
+                _authObject = Auth.FromJson(resp.Content);
+                _providedToken = _authObject.AccessToken;
+                _tokenExpiresIn = _authObject.ExpiresIn;
+                _tokenTimer.Interval = TimeSpan.FromSeconds((double)(_tokenExpiresIn - _expirationOffset)).TotalMilliseconds;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
