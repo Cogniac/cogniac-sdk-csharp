@@ -6,7 +6,7 @@ The namespace Cogniac is used in this SDK, and all trivial types are nullable (E
 
 # Class: Connection
 
-__Cogniac.Connection(username, password, tenantId, token, urlPrefix)__
+__Cogniac.Connection(username, password, tenantId, token, urlPrefix, autoRenewToken)__
 
 	Description: 			Create an authenticated Cogniac connection with known credentials.
 
@@ -29,6 +29,9 @@ __Cogniac.Connection(username, password, tenantId, token, urlPrefix)__
 	
 	urlPrefix (string):         	(Optional) Do not use this parameter unless the API has 
 					been relocated to a different address. The default value is always used.
+					
+	autoRenewToken (boolean):	(Optional) allows the generated token to renew automatically 
+					once it expires mid-execution. The default value is true.
 
 The following methods are members of the Cogniac.Connection object:
 
