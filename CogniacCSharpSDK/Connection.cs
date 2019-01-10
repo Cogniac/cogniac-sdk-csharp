@@ -580,8 +580,9 @@ namespace Cogniac
         /// <param name="mediaId">Media ID</param>
         /// <param name="subjectUid">Subject UID</param>
         /// <param name="forceFeedback">Fore feedback flag</param>
+        /// <param name="enableWaitResult">Enable 'synchronous' result - use /media/<media id>/detections?wait_capture_id for result</param>
         /// <returns>Cogniac.CaptureId object</returns>
-        public CaptureId AssociateMediaToSubject(string mediaId, string subjectUid, bool forceFeedback = false)
+        public CaptureId AssociateMediaToSubject(string mediaId, string subjectUid, bool forceFeedback = false, bool enableWaitResult=false)
         {
             if (string.IsNullOrEmpty(mediaId) || string.IsNullOrEmpty(subjectUid))
             {
@@ -592,7 +593,8 @@ namespace Cogniac
                 Dictionary<string, object> dict = new Dictionary<string, object>
                 {
                     { "media_id", mediaId },
-                    { "force_feedback", forceFeedback }
+                    { "force_feedback", forceFeedback },
+                    { "enable_wait_result", enableWaitResult }
                 };
                 var request = new RestRequest(Method.POST);
                 string data = Helpers.MapToQueryString(dict);
@@ -823,6 +825,41 @@ namespace Cogniac
                 if (response.IsSuccessful && (response.StatusCode == HttpStatusCode.OK))
                 {
                     return MediaSubjects.FromJson(response.Content);
+                }
+                else
+                {
+                    throw new WebException(message: "Network error while getting media subjects: " + response.Content);
+                }
+            }
+            else
+            {
+                throw new ArgumentException(message: "The media ID provided is null or empty.");
+            }
+        }
+
+        /// <summary>
+        /// Get detections for media
+        /// </summary>
+        /// <param name="mediaId">Media ID</param>
+        /// <returns>>>>Cogniac.Mediadetections</returns>
+        public MediaDetections GetMediaDetections(string mediaId, string waitCaptureId = null)
+        {
+            if (!String.IsNullOrEmpty(mediaId))
+            {
+                string fullUrl = "";
+                if (string.IsNullOrEmpty(waitCaptureId))
+                {
+                    fullUrl = $"{_urlPrefix}/media/{mediaId}/detections";
+                }
+                else
+                {
+                    fullUrl = $"{_urlPrefix}/media/{mediaId}/detections?wait_capture_id={waitCaptureId}";
+                }
+                var request = new RestRequest(Method.GET);
+                var response = ExecuteRequest(fullUrl, request);
+                if (response.IsSuccessful && (response.StatusCode == HttpStatusCode.OK))
+                {
+                    return MediaDetections.FromJson(response.Content);
                 }
                 else
                 {
