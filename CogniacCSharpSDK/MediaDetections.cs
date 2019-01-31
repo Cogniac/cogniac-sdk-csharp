@@ -26,7 +26,7 @@ namespace Cogniac
         /// <summary>
         /// Data array containing media subjects
         /// </summary>
-        [JsonProperty("data")]
+        [JsonProperty("detections")]
         public Datum[] Data { get; set; }
     }
 
