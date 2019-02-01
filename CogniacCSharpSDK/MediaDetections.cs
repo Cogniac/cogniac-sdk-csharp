@@ -27,7 +27,7 @@ namespace Cogniac
         /// Data array containing media subjects
         /// </summary>
         [JsonProperty("detections")]
-        public Datum[] Data { get; set; }
+        public Subject[] Data { get; set; }
     }
 
     public partial class MediaDetections
