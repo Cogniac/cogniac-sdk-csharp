@@ -1,18 +1,23 @@
 <?xml version="1.0"?>
-<package >
+<package>
   <metadata>
     <id>Cogniac.CSharpSDK</id>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
     <authors>Al Alkadi</authors>
     <owners>Cogniac</owners>
     <iconUrl>https://cogniac.co/app/assets/images/cogniac-logo-ad919676d34ca45a6338c52ace622aba.svg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>CSharp Client Library for the Cogniac Public API</description>
     <releaseNotes>
-		* Added automatic token renewal feature when creating a Connection.
-		* CogniacCSharpSDK.dll is now version 1.0.0.6.
+		* Fixed issue #5 (https://github.com/Cogniac/cogniac-sdk-csharp/issues/5)
+		* Fixed issue #4 (https://github.com/Cogniac/cogniac-sdk-csharp/issues/4)
+		* Fixed issue #12 (https://github.com/Cogniac/cogniac-sdk-csharp/issues/12)
+		* Added MediaDetections class
+		* Updated all files to 2019 license
+		* Added JWT decoding
+		* CogniacCSharpSDK.dll is now version 1.0.0.7
 	</releaseNotes>
-    <copyright>Copyright 2018 (c) Cogniac. All rights reserved.</copyright>
+    <copyright>Copyright 2019 (c) Cogniac. All rights reserved.</copyright>
     <tags>Cogniac CSharp SDK</tags>
     <projectUrl>https://github.com/Cogniac/cogniac-sdk-csharp</projectUrl>
     <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0.txt</licenseUrl>
@@ -20,6 +25,7 @@
       <dependency id="Newtonsoft.Json" version="10.0.3" />
       <dependency id="RestSharp" version="106.2.0" />
       <dependency id="System.ValueTuple" version="4.4.0" />
+      <dependency id="System.IdentityModel.Tokens.Jwt" version="5.4.0" />
     </dependencies>
   </metadata>
 	<files>

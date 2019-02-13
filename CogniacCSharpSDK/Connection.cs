@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2018 Cogniac Corporation.
+    Copyright 2019 Cogniac Corporation.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -22,6 +22,8 @@ using RestSharp.Authenticators;
 using RestSharp.Deserializers;
 using System.Net;
 using System.Timers;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 
 namespace Cogniac
 {
@@ -83,13 +85,20 @@ namespace Cogniac
 
         private void Authenticate()
         {
-            string fullUrl = $"{_urlPrefix}/oauth/token?tenant_id={_tenantId}";
-            _authObject = Auth.FromJson(ExecuteRequest(fullUrl).Content);
+            string fullUrl = $"{_urlPrefix}/token?tenant_id={_tenantId}";
             IRestResponse resp = ExecuteRequest(fullUrl);
             try
             {
+                // Populate the Auth object with the missing information
                 _authObject = Auth.FromJson(resp.Content);
                 _providedToken = _authObject.AccessToken;
+                var decoded_token = new JwtSecurityToken(jwtEncodedString: _providedToken);
+                _authObject.UserId = decoded_token.Claims.First(c => c.Type == "sub").Value;
+                _authObject.TenantId = decoded_token.Claims.First(c => c.Type == "tid").Value;
+                _authObject.ExpiresIn = (long)(Convert.ToDouble(decoded_token.Claims.First(c => c.Type == "exp").Value)
+                    - Convert.ToDouble(decoded_token.Claims.First(c => c.Type == "iat").Value));
+                _authObject.TenantName = GetTenant(_authObject.TenantId).Name;
+                _authObject.UserEmail = decoded_token.Claims.First(c => c.Type == "ema").Value;
                 _tokenExpiresIn = _authObject.ExpiresIn;
                 if (_autoRenewToken == true)
                 {
@@ -123,6 +132,13 @@ namespace Cogniac
                 resp = Retry.Do(() => client.Execute(request), TimeSpan.FromSeconds(5), 3);
                 _authObject = Auth.FromJson(resp.Content);
                 _providedToken = _authObject.AccessToken;
+                var decoded_token = new JwtSecurityToken(jwtEncodedString: _providedToken);
+                _authObject.UserId = decoded_token.Claims.First(c => c.Type == "sub").Value;
+                _authObject.TenantId = decoded_token.Claims.First(c => c.Type == "tid").Value;
+                _authObject.ExpiresIn = (long)(Convert.ToDouble(decoded_token.Claims.First(c => c.Type == "exp").Value)
+                    - Convert.ToDouble(decoded_token.Claims.First(c => c.Type == "iat").Value));
+                _authObject.TenantName = GetTenant(_authObject.TenantId).Name;
+                _authObject.UserEmail = decoded_token.Claims.First(c => c.Type == "ema").Value;
                 _tokenExpiresIn = _authObject.ExpiresIn;
                 _tokenTimer.Interval = TimeSpan.FromSeconds((double)(_tokenExpiresIn - _expirationOffset)).TotalMilliseconds;
             }
@@ -303,22 +319,18 @@ namespace Cogniac
                 }
                 string mediaFormat = Path.GetExtension(fileName);
                 mediaFormat = mediaFormat.Replace(".", string.Empty);
-                if (mediaTimestamp <= 0)
-                {
-                    if (!((fileName.ToLower().StartsWith("https://")) || (fileName.ToLower().StartsWith("http://"))))
-                    {
-                        mediaTimestamp = Helpers.ToUnixTime(File.GetCreationTime(fileName));
-                    }
-                }
                 Dictionary<string, object> dict = new Dictionary<string, object>
                 {
                     { "media_src", "c_sharp_sdk" },
                     { "media_fomat", mediaFormat },
-                    { "media_timestamp", mediaTimestamp },
                     { "filename", fileName },
                     { "force_overwrite", forceOverwrite },
                     { "public", isPublic },
                 };
+                if (mediaTimestamp > 0)
+                {
+                    dict.Add("media_timestamp", mediaTimestamp);
+                }
                 if (!String.IsNullOrEmpty(forceSet))
                 {
                     if (forceSet.ToLower().Equals("training"))
@@ -580,8 +592,9 @@ namespace Cogniac
         /// <param name="mediaId">Media ID</param>
         /// <param name="subjectUid">Subject UID</param>
         /// <param name="forceFeedback">Fore feedback flag</param>
+        /// <param name="enableWaitResult">Enable wait flag</param>
         /// <returns>Cogniac.CaptureId object</returns>
-        public CaptureId AssociateMediaToSubject(string mediaId, string subjectUid, bool forceFeedback = false)
+        public CaptureId AssociateMediaToSubject(string mediaId, string subjectUid, bool forceFeedback = false, bool enableWaitResult = false)
         {
             if (string.IsNullOrEmpty(mediaId) || string.IsNullOrEmpty(subjectUid))
             {
@@ -592,7 +605,8 @@ namespace Cogniac
                 Dictionary<string, object> dict = new Dictionary<string, object>
                 {
                     { "media_id", mediaId },
-                    { "force_feedback", forceFeedback }
+                    { "force_feedback", forceFeedback },
+                    { "enable_wait_result", enableWaitResult }
                 };
                 var request = new RestRequest(Method.POST);
                 string data = Helpers.MapToQueryString(dict);
@@ -827,6 +841,42 @@ namespace Cogniac
                 else
                 {
                     throw new WebException(message: "Network error while getting media subjects: " + response.Content);
+                }
+            }
+            else
+            {
+                throw new ArgumentException(message: "The media ID provided is null or empty.");
+            }
+        }
+
+        /// <summary>
+        /// Get the detections associated with a media
+        /// </summary>
+        /// <param name="mediaId">Media ID</param>
+        /// <param name="waitCaptureId">Wait capture ID</param>
+        /// <returns>Cogniac.MediaDetections</returns>
+        public MediaDetections GetMediaDetections(string mediaId, string waitCaptureId = null)
+        {
+            if (!String.IsNullOrEmpty(mediaId))
+            {
+                string fullUrl = "";
+                if (string.IsNullOrEmpty(waitCaptureId))
+                {
+                    fullUrl = $"{_urlPrefix}/media/{mediaId}/detections";
+                }
+                else
+                {
+                    fullUrl = $"{_urlPrefix}/media/{mediaId}/detections?wait_capture_id={waitCaptureId}";
+                }
+                var request = new RestRequest(Method.GET);
+                var response = ExecuteRequest(fullUrl, request);
+                if (response.IsSuccessful && (response.StatusCode == HttpStatusCode.OK))
+                {
+                    return MediaDetections.FromJson(response.Content);
+                }
+                else
+                {
+                    throw new WebException(message: "Network error while getting media detections: " + response.Content);
                 }
             }
             else

@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2018 Cogniac Corporation.
+    Copyright 2019 Cogniac Corporation.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -26,43 +26,43 @@ namespace Cogniac
         /// <summary>
         /// User ID
         /// </summary>
-        [JsonProperty("user_id")]
+        [JsonProperty("user_id", NullValueHandling = NullValueHandling.Ignore)]
         public string UserId { get; set; }
 
         /// <summary>
         /// Access token
         /// </summary>
-        [JsonProperty("access_token")]
+        [JsonProperty("access_token", NullValueHandling = NullValueHandling.Ignore)]
         public string AccessToken { get; set; }
 
         /// <summary>
         /// Tenant ID
         /// </summary>
-        [JsonProperty("tenant_id")]
+        [JsonProperty("tenant_id", NullValueHandling = NullValueHandling.Ignore)]
         public string TenantId { get; set; }
 
         /// <summary>
         /// Expiration time
         /// </summary>
-        [JsonProperty("expires_in")]
+        [JsonProperty("expires_in", NullValueHandling = NullValueHandling.Ignore)]
         public long? ExpiresIn { get; set; }
 
         /// <summary>
         /// Token type
         /// </summary>
-        [JsonProperty("token_type")]
+        [JsonProperty("token_type", NullValueHandling = NullValueHandling.Ignore)]
         public string TokenType { get; set; }
 
         /// <summary>
         /// Tenant name
         /// </summary>
-        [JsonProperty("tenant_name")]
+        [JsonProperty("tenant_name", NullValueHandling = NullValueHandling.Ignore)]
         public string TenantName { get; set; }
 
         /// <summary>
         /// User email address
         /// </summary>
-        [JsonProperty("user_email")]
+        [JsonProperty("user_email", NullValueHandling = NullValueHandling.Ignore)]
         public string UserEmail { get; set; }
     }
 
