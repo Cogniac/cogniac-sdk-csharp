@@ -237,6 +237,16 @@ __GetMediaSubjects(mediaId)__
 
 	Return:				Cogniac.MediaSubjects - multi-member object.
 
+__GetMediaDetections(mediaId, waitCaptureId)__
+
+	Description:			Gets the detections associated with a media.
+	
+	mediaId (string):		(Required) The unique ID of the media.
+	
+	waitCaptureId (string):		(optional) The wait capture ID for the synchronous API. 
+
+	Return:				Cogniac.MediaDetections - multi-member object.
+
 The following are the objects used in the SDK and their members.
 		
 # Class: AuthorizedTenants
@@ -396,6 +406,12 @@ The following are the objects used in the SDK and their members.
 
 	Title (string)			
 		The user defined title of the uploaded media.
+		
+	VideoContext (object)
+		Video contaxt object.
+		
+	FramePreviewMap (object)
+		Frame preview map.
 	
 # Class: Applications
 
@@ -557,8 +573,66 @@ The following are the objects used in the SDK and their members.
 # Class: MediaSubjects
 
 	Data (object)
-		Data array containing media subjects
+		Data array containing media subjects.
 		
+# Class: MediaDetections
+
+	OtherMedia (object array)
+		List of other media objects.
+		
+	Detections (object array)
+		List of detection objects.
+		
+	MediaList (object array)
+		Media list objects array.
+		
+# Class: Detection
+
+	ModelId (object)
+		Model ID property.
+
+	MediaId (string)
+		Media ID property.
+		
+	Probability (double)
+		Probability value.
+		
+	CreatedAt (double)
+		Created at time-stamp.
+		
+	Focus (object)
+		Focus object.
+		
+	AppDataType (string)
+		Application data type string.
+		
+	InferenceFocus (object)
+		Inference focus object.
+		
+	SubjectUid (string)
+		Subject UID string.
+		
+	AppData (object)
+		Application data object.
+		
+	UncalProb (object)
+		Uncal prob object.
+		
+	PrevProb (object)
+		Prev prob object.
+		
+	DetectionId (string)
+		Detectoin ID property.
+		
+	UserId (string)
+		User ID property.
+		
+	AppId (object)
+		Application ID property.
+		
+	Activation (object)
+		Activation object.
+
 All classes can utilize the following methods:
 
 __Cogniac.[OBJECT].FromJson(json)__
