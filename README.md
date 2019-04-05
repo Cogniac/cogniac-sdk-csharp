@@ -87,6 +87,8 @@ __UploadMedia(forceSet, fileName, mediaTimestamp, forceOverwrite, metaTags, isPu
 					instead of a file. If not provided, fileName must be provided instead.
 
 	previewUrl (string):		(Optional) URL for media preview image for display.
+	
+	domainUnit (string):		(Optional) (E.G. serial number) for set assignment grouping.
 
 	localGatewayUrl (string):	(Optional) URL to upload media to, this is used when a local gateway is installed.
 
@@ -687,6 +689,7 @@ Depends on all the "Release" DLLs output from the 'CogniacCSharpSDK' project.
 	-su   | -SourceUrl          Source URL of the media.
 	-pu   | -PreviewUrl         Preview URL of the media.
 	-suid | -SubjectUid         The Cogniac subject to associate the media with.
+	-du   | -DomainUnit         (E.G. serial number) for set assignment grouping.
 	-r    | -Recursive          ['True' or 'False' (default)] Recursively upload files in 'DirName'.
 	-h    | -Help               Displays this help message.
 
