@@ -2,20 +2,17 @@
 <package>
   <metadata>
     <id>Cogniac.CSharpSDK</id>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
     <authors>Al Alkadi</authors>
     <owners>Cogniac</owners>
     <iconUrl>https://cogniac.co/app/assets/images/cogniac-logo-ad919676d34ca45a6338c52ace622aba.svg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>CSharp Client Library for the Cogniac Public API</description>
     <releaseNotes>
-		* Fixed issue #5 (https://github.com/Cogniac/cogniac-sdk-csharp/issues/5)
-		* Fixed issue #4 (https://github.com/Cogniac/cogniac-sdk-csharp/issues/4)
-		* Fixed issue #12 (https://github.com/Cogniac/cogniac-sdk-csharp/issues/12)
-		* Added MediaDetections class
-		* Updated all files to 2019 license
-		* Added JWT decoding
-		* CogniacCSharpSDK.dll is now version 1.0.0.7
+		* Fixed issue #6 (https://github.com/Cogniac/cogniac-sdk-csharp/issues/6)
+		* Added Domain Unit to the Upload Tool utility (-du and -DomainUnit switches)
+		* CogniacCSharpSDK.dll is now version 1.0.0.8
+		* CogUpload.exe is now version 1.0.0.2
 	</releaseNotes>
     <copyright>Copyright 2019 (c) Cogniac. All rights reserved.</copyright>
     <tags>Cogniac CSharp SDK</tags>

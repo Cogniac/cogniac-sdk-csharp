@@ -33,6 +33,7 @@ namespace CogniacUploadTool
         private static string _forceSet = "";
         private static string _license = "";
         private static string _authorProfileUrl = "";
+        private static string _domainUnit = "";
         private static string _urlPrefix = "https://api.cogniac.io/1";
         private static string _localGatewayUrl = "";
         private static bool _forceOverwrite = true;
@@ -255,6 +256,12 @@ namespace CogniacUploadTool
                         CheckParam(_subjectUid, nameof(_subjectUid));
                         break;
 
+                    case "-du":
+                    case "-domainunit":
+                        _domainUnit = args.ElementAtOrDefault(++index);
+                        CheckParam(_domainUnit, nameof(_domainUnit));
+                        break;
+
                     case "-r":
                     case "-recursive":
                         try
@@ -312,7 +319,7 @@ namespace CogniacUploadTool
                         Media m = _con.UploadMedia(_forceSet, fileName, mediaTimestamp,
                         _forceOverwrite, _metaTags.ToArray(), _isPublic, externalMediaId,
                         originalUrl, originalLandingUrl, _license, _authorProfileUrl,
-                        title, sourceUrl, previewUrl, _localGatewayUrl);
+                        title, sourceUrl, previewUrl, _domainUnit, _localGatewayUrl);
                         if (m != null)
                         {
                             Console.WriteLine($"'{fileName}' uploaded.");
@@ -414,8 +421,7 @@ namespace CogniacUploadTool
                 Media m = c.UploadMedia(forceSet: _forceSet, fileName: fileName,
                     forceOverwrite: _forceOverwrite, metaTags: _metaTags.ToArray(),
                     isPublic: _isPublic, license: _license, authorProfileUrl: _authorProfileUrl,
-                    localGatewayUrl: _localGatewayUrl);
-
+                    domainUnit: _domainUnit, localGatewayUrl: _localGatewayUrl);
                 if (m != null)
                 {
                     Console.WriteLine($"'{fileName}' uploaded.");
@@ -468,6 +474,7 @@ namespace CogniacUploadTool
                 "-su   | -SourceUrl          Source URL of the media. \r\n" +
                 "-pu   | -PreviewUrl         Preview URL of the media. \r\n" +
                 "-suid | -SubjectUid         The Cogniac subject to associate the media with. \r\n" +
+                "-du   | -DomainUnit         Original, (E.G. serial number) for set assignment grouping. \r\n" +
                 "-r    | -Recursive          ['True' or 'False' (default)] Recursively upload files in 'DirName'. \r\n" +
                 "-h    | -Help               Displays this help message. \r\n" +
                 "\r\n" +

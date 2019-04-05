@@ -273,6 +273,7 @@ namespace Cogniac
         /// <param name="title">Title of media</param>
         /// <param name="sourceUrl">Source URL</param>
         /// <param name="previewUrl">Preview URL</param>
+        /// <param name="domainUnit">(E.G. serial number) for set assignment grouping</param>"
         /// <param name="localGatewayUrl">Local gateway URL</param>
         /// <returns>Cogniac.Media object</returns>
         public Media UploadMedia
@@ -291,6 +292,7 @@ namespace Cogniac
             string title = null,
             string sourceUrl = null,
             string previewUrl = null,
+            string domainUnit = null,
             string localGatewayUrl = null
         )
         {
@@ -377,6 +379,10 @@ namespace Cogniac
                 if (!String.IsNullOrEmpty(sourceUrl))
                 {
                     dict.Add("source_url", sourceUrl);
+                }
+                if (!String.IsNullOrEmpty(domainUnit))
+                {
+                    dict.Add("domain_unit", domainUnit);
                 }
                 string data = Helpers.MapToQueryString(dict);
                 var request = new RestRequest(Method.POST)
