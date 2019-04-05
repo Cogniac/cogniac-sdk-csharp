@@ -474,7 +474,7 @@ namespace CogniacUploadTool
                 "-su   | -SourceUrl          Source URL of the media. \r\n" +
                 "-pu   | -PreviewUrl         Preview URL of the media. \r\n" +
                 "-suid | -SubjectUid         The Cogniac subject to associate the media with. \r\n" +
-                "-du   | -DomainUnit         Original, (E.G. serial number) for set assignment grouping. \r\n" +
+                "-du   | -DomainUnit         (E.G. serial number) for set assignment grouping. \r\n" +
                 "-r    | -Recursive          ['True' or 'False' (default)] Recursively upload files in 'DirName'. \r\n" +
                 "-h    | -Help               Displays this help message. \r\n" +
                 "\r\n" +
