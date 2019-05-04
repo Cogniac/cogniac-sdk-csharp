@@ -63,7 +63,7 @@ __UploadMedia(forceSet, fileName, mediaTimestamp, forceOverwrite, metaTags, isPu
 	fileName (string):		(Optional) The full path and file name of media item 
 					to upload. If this is not provided, sourceUrl must be provided instead.
 		
-	mediaTimestamp (double):		(Optional) User-specified image timestamp.
+	mediaTimestamp (double):	(Optional) User-specified image timestamp.
 	
 	forceOverwrite (boolean):	(Optional) Overwrite any existing, identical media files and metadata.
 
