@@ -50,7 +50,7 @@ namespace CogniacUploadTool
             string userName = "";
             string password = "";
             string tenantId = "";
-            long mediaTimestamp = 0;
+            double mediaTimestamp = 0;
             string externalMediaId = "";
             string originalUrl = "";
             string originalLandingUrl = "";
@@ -129,7 +129,7 @@ namespace CogniacUploadTool
                     case "-mediatimestamp":
                         try
                         {
-                            mediaTimestamp = Convert.ToInt64(args.ElementAtOrDefault(++index));
+                            mediaTimestamp = Convert.ToDouble(args.ElementAtOrDefault(++index));
                         }
                         catch (Exception ex)
                         {

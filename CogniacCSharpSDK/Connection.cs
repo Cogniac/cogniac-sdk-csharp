@@ -280,7 +280,7 @@ namespace Cogniac
         (
             string forceSet = null,
             string fileName = null,
-            long mediaTimestamp = 0,
+            double mediaTimestamp = 0,
             bool forceOverwrite = true,
             string[] metaTags = null,
             bool isPublic = false,

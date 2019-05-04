@@ -118,7 +118,7 @@ namespace Cogniac
         /// Media time stamp
         /// </summary>
         [JsonProperty("media_timestamp")]
-        public long? MediaTimestamp { get; set; }
+        public double? MediaTimestamp { get; set; }
 
         /// <summary>
         /// Media URL
