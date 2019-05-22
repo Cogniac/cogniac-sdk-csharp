@@ -599,8 +599,11 @@ namespace Cogniac
         /// <param name="subjectUid">Subject UID</param>
         /// <param name="forceFeedback">Fore feedback flag</param>
         /// <param name="enableWaitResult">Enable wait flag</param>
+        /// <param name="probability">Association probability, only valid if consensus is null</param>
+        /// <param name="consensus">Consensus value</param>
         /// <returns>Cogniac.CaptureId object</returns>
-        public CaptureId AssociateMediaToSubject(string mediaId, string subjectUid, bool forceFeedback = false, bool enableWaitResult = false)
+        public CaptureId AssociateMediaToSubject(string mediaId, string subjectUid, bool forceFeedback = false, bool enableWaitResult = false,
+            double? probability = null, bool? consensus = null)
         {
             if (string.IsNullOrEmpty(mediaId) || string.IsNullOrEmpty(subjectUid))
             {
@@ -614,6 +617,20 @@ namespace Cogniac
                     { "force_feedback", forceFeedback },
                     { "enable_wait_result", enableWaitResult }
                 };
+                // Perform some logic for the probability
+                if (consensus == null)
+                {
+                    if (probability == null)
+                    {
+                        probability = 0.99;
+                    }
+                    // Insert it into the API call
+                    dict.AddIfNotNull("uncal_prob", probability);
+                }
+                else
+                {
+                    dict.AddIfNotNull("consensus", consensus);
+                }
                 var request = new RestRequest(Method.POST);
                 string data = Helpers.MapToQueryString(dict);
                 IRestResponse response = ExecuteRequest($"{_urlPrefix}/subjects/{subjectUid}/media?{data}", request);

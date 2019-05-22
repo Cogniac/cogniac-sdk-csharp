@@ -38,6 +38,8 @@ namespace CogniacUploadTool
         private static string _localGatewayUrl = "";
         private static bool _forceOverwrite = true;
         private static bool _forceFeedback = false;
+        private static bool? _consensus = null;
+        private static double? _probability = null;
         private static bool _isPublic = false;
         private static List<string> _metaTags = new List<string>();
         private static string _subjectUid = "";
@@ -134,6 +136,34 @@ namespace CogniacUploadTool
                         catch (Exception ex)
                         {
                             Kill($"'MediaTimestamp' is invalid: {ex.Message}", -1);
+                        }
+                        break;
+
+                    case "-pr":
+                    case "-probability":
+                        try
+                        {
+                            double tempVal;
+                            string stringVal = args.ElementAtOrDefault(++index);
+                            _probability = Double.TryParse(stringVal, out tempVal) ? Double.Parse(stringVal) : (double?)null;
+                        }
+                        catch (Exception ex)
+                        {
+                            Kill($"'Probability' is invalid: {ex.Message}", -1);
+                        }
+                        break;
+
+                    case "-cn":
+                    case "-consensus":
+                        try
+                        {
+                            bool tempVal;
+                            string stringVal = args.ElementAtOrDefault(++index);
+                            _consensus = Boolean.TryParse(stringVal, out tempVal) ? Boolean.Parse(stringVal) : (bool?)null;
+                        }
+                        catch (Exception ex)
+                        {
+                            Kill($"'Consensus' is invalid: {ex.Message}", -1);
                         }
                         break;
 
@@ -325,7 +355,8 @@ namespace CogniacUploadTool
                             Console.WriteLine($"'{fileName}' uploaded.");
                             Console.WriteLine($"MediaId: '{m.MediaId}'");
                             Console.WriteLine($"Associating media to subject: '{_subjectUid}'");
-                            CaptureId ci = _con.AssociateMediaToSubject(m.MediaId, _subjectUid, _forceFeedback);
+                            CaptureId ci = _con.AssociateMediaToSubject(m.MediaId, _subjectUid, _forceFeedback,
+                                probability: _probability, consensus: _consensus);
                             if (ci != null)
                             {
                                 Console.WriteLine($"Association successful. CaptureId: '{ci.Id}'");
@@ -427,7 +458,8 @@ namespace CogniacUploadTool
                     Console.WriteLine($"'{fileName}' uploaded.");
                     Console.WriteLine($"MediaId: '{m.MediaId}'");
                     Console.WriteLine($"Associating media to subject: '{_subjectUid}'");
-                    CaptureId ci = _con.AssociateMediaToSubject(m.MediaId, _subjectUid, _forceFeedback);
+                    CaptureId ci = _con.AssociateMediaToSubject(m.MediaId, _subjectUid, _forceFeedback,
+                        probability: _probability, consensus: _consensus);
                     if (ci != null)
                     {
                         Console.WriteLine($"Association successful. CaptureId: '{ci.Id}'");
@@ -462,6 +494,8 @@ namespace CogniacUploadTool
                 "-lgu  | -LocalGatewayUrl    Local gateway URL. \r\n" +
                 "-mt   | -MediaTimestamp     Time stamp of the media. \r\n" +
                 "-ff   | -ForceFeedback      ['True' or 'False' (default)] Force feedback after upload. \r\n" +
+                "-cn   | -Consensus          ['True' or 'False' or 'Null' (default)] Consensus value. \r\n" +
+                "-pr   | -Probability        Association probability, only valid if consensus is null. \r\n" +
                 "-fow  | -ForceOverwrite     ['True' (default) or 'False'] Force overwrite of media. \r\n" +
                 "-mtg  | -MetaTags           [Array] List of meta tags of the media. \r\n" +
                 "-isp  | -IsPublic           ['True' or 'False' (default)] Set media to public. \r\n" +

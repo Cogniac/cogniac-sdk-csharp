@@ -2,16 +2,16 @@
 <package>
   <metadata>
     <id>Cogniac.CSharpSDK</id>
-    <version>1.0.10</version>
+    <version>1.0.11</version>
     <authors>Al Alkadi</authors>
     <owners>Cogniac</owners>
     <iconUrl>https://cogniac.co/app/assets/images/cogniac-logo-ad919676d34ca45a6338c52ace622aba.svg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>CSharp Client Library for the Cogniac Public API</description>
     <releaseNotes>
-		* Fixed issue #16 (https://github.com/Cogniac/cogniac-sdk-csharp/issues/16)
-		* CogniacCSharpSDK.dll is now version 1.0.0.9
-		* CogUpload.exe is now version 1.0.0.4
+		* Fixed issue #17 (https://github.com/Cogniac/cogniac-sdk-csharp/issues/17)
+		* CogniacCSharpSDK.dll is now version 1.0.0.10
+		* CogUpload.exe is now version 1.0.0.5
 	</releaseNotes>
     <copyright>Copyright 2019 (c) Cogniac. All rights reserved.</copyright>
     <tags>Cogniac CSharp SDK</tags>
