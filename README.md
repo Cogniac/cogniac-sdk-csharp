@@ -681,8 +681,8 @@ Depends on all the "Release" DLLs output from the 'CogniacCSharpSDK' project.
 	-lgu  | -LocalGatewayUrl    Local gateway URL.
 	-mt   | -MediaTimestamp     Time stamp of the media.
 	-ff   | -ForceFeedback      ['True' or 'False' (default)] Force feedback after upload.
-        -cn   | -Consensus          ['True' or 'False' or 'Null' (default)] Consensus value.
-        -pr   | -Probability        Association probability, only valid if consensus is null.
+	-cn   | -Consensus          ['True' or 'False' or 'Null' (default)] Consensus value.
+	-pr   | -Probability        Association probability, only valid if consensus is null.
 	-fow  | -ForceOverwrite     ['True' (default) or 'False'] Force overwrite of media.
 	-mtg  | -MetaTags           [Array] List of meta tags of the media.
 	-isp  | -IsPublic           ['True' or 'False' (default)] Set media to public.
