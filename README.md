@@ -142,7 +142,7 @@ __GetTenant(tenantId)__
 
 	Return:				Cogniac.Tenant - multi-member object.
 	
-__AssociateMediaToSubject(mediaId, subjectUid, forceFeedback)__
+__AssociateMediaToSubject(mediaId, subjectUid, forceFeedback, probability, consensus)__
 
 	Description:			Associates an uploaded media to a given subject.
 	
@@ -152,6 +152,10 @@ __AssociateMediaToSubject(mediaId, subjectUid, forceFeedback)__
 
 	foreFeedback (boolean):		(Optional) Forces the cogniac system to use the media for feedback.
 					This value defaults to false if.
+	
+	probability (double):		(Optional) Association probability, only valid if consensus is null
+	
+	consensus (boolean):		(Optional) Consensus value (True, False or Null).
 
 	Return:				Cogniac.Tenant - multi-member object.
 
@@ -677,6 +681,8 @@ Depends on all the "Release" DLLs output from the 'CogniacCSharpSDK' project.
 	-lgu  | -LocalGatewayUrl    Local gateway URL.
 	-mt   | -MediaTimestamp     Time stamp of the media.
 	-ff   | -ForceFeedback      ['True' or 'False' (default)] Force feedback after upload.
+        -cn   | -Consensus          ['True' or 'False' or 'Null' (default)] Consensus value.
+        -pr   | -Probability        Association probability, only valid if consensus is null.
 	-fow  | -ForceOverwrite     ['True' (default) or 'False'] Force overwrite of media.
 	-mtg  | -MetaTags           [Array] List of meta tags of the media.
 	-isp  | -IsPublic           ['True' or 'False' (default)] Set media to public.
