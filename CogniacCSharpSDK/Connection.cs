@@ -120,7 +120,7 @@ namespace Cogniac
 
         private void OnTokenTimedEvent(object source, ElapsedEventArgs e)
         {
-            string fullUrl = $"{_urlPrefix}/oauth/token?tenant_id={_tenantId}";
+            string fullUrl = $"{_urlPrefix}/token?tenant_id={_tenantId}";
             var client = new RestClient(fullUrl);
             var request = new RestRequest(Method.GET);
             IRestResponse resp = null;
@@ -905,6 +905,47 @@ namespace Cogniac
             else
             {
                 throw new ArgumentException(message: "The media ID provided is null or empty.");
+            }
+        }
+
+        /// <summary>
+        /// Update a given tenant
+        /// </summary>
+        /// <param name="tenantId">Tenant ID</param>
+        /// <param name="name">Tenant name</param>
+        /// <param name="description">Tenant description</param>
+        /// <param name="azureSasTokens">Tenant Azure SAS token</param>
+        /// <returns>Cogniac.Tenant</returns>
+        public Tenant UpdateTenant
+        (
+            string tenantId,
+            string name = null,
+            string description = null,
+            string azureSasTokens = null
+        )
+        {
+            if (string.IsNullOrEmpty(tenantId))
+            {
+                throw new ArgumentException("message", nameof(tenantId));
+            }
+            Dictionary<string, object> dict = new Dictionary<string, object> { };
+            dict.AddIfNotNull("name", name);
+            dict.AddIfNotNull("description", description);
+            dict.AddIfNotNull("azure_sas_tokens", azureSasTokens);
+            string data = Helpers.MapToQueryString(dict);
+            var request = new RestRequest(Method.POST)
+            {
+                AlwaysMultipartFormData = true
+            };
+            string fullUrl = $"{_urlPrefix}/tenants/{tenantId}?{data}";
+            var response = ExecuteRequest(fullUrl, request);
+            if (response.IsSuccessful && (response.StatusCode == HttpStatusCode.OK))
+            {
+                return Tenant.FromJson(response.Content);
+            }
+            else
+            {
+                throw new WebException(message: "Network error while updating tenant: " + response.Content);
             }
         }
     } // End of class

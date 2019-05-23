@@ -38,38 +38,62 @@ namespace Cogniac
         /// <summary>
         /// Tenant ID
         /// </summary>
-        [JsonProperty("tenant_id")]
+        [JsonProperty("tenant_id", NullValueHandling = NullValueHandling.Ignore)]
         public string TenantId { get; set; }
 
         /// <summary>
         /// Name
         /// </summary>
-        [JsonProperty("name")]
+        [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
 
         /// <summary>
         /// Description
         /// </summary>
-        [JsonProperty("description")]
+        [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
 
         /// <summary>
         /// Created time
         /// </summary>
-        [JsonProperty("created_at")]
+        [JsonProperty("created_at", NullValueHandling = NullValueHandling.Ignore)]
         public double? CreatedAt { get; set; }
 
         /// <summary>
         /// Modified time
         /// </summary>
-        [JsonProperty("modified_at")]
+        [JsonProperty("modified_at", NullValueHandling = NullValueHandling.Ignore)]
         public double? ModifiedAt { get; set; }
 
         /// <summary>
         /// Created by
         /// </summary>
-        [JsonProperty("created_by")]
+        [JsonProperty("created_by", NullValueHandling = NullValueHandling.Ignore)]
         public string CreatedBy { get; set; }
+
+        /// <summary>
+        /// Beta Object
+        /// </summary>
+        [JsonProperty("beta")]
+        public object Beta { get; set; }
+
+        /// <summary>
+        /// Azure SAS Tokens
+        /// </summary>
+        [JsonProperty("azure_sas_tokens")]
+        public object AzureSasTokens { get; set; }
+
+        /// <summary>
+        /// Custom Data
+        /// </summary>
+        [JsonProperty("custom_data")]
+        public object CustomData { get; set; }
+
+        /// <summary>
+        /// Region
+        /// </summary>
+        [JsonProperty("region")]
+        public object Region { get; set; }
     }
 
     public partial class Tenant

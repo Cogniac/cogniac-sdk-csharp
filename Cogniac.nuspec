@@ -2,21 +2,23 @@
 <package>
   <metadata>
     <id>Cogniac.CSharpSDK</id>
-    <version>1.0.11</version>
+    <version>1.0.12</version>
     <authors>Al Alkadi</authors>
     <owners>Cogniac</owners>
     <iconUrl>https://cogniac.co/app/assets/images/cogniac-logo-ad919676d34ca45a6338c52ace622aba.svg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>CSharp Client Library for the Cogniac Public API</description>
     <releaseNotes>
-		* Fixed issue #17 (https://github.com/Cogniac/cogniac-sdk-csharp/issues/17)
-		* CogniacCSharpSDK.dll is now version 1.0.0.10
-		* CogUpload.exe is now version 1.0.0.5
+		* Fixed issue #15 (https://github.com/Cogniac/cogniac-sdk-csharp/issues/15)
+		* Fixed issue #7 (https://github.com/Cogniac/cogniac-sdk-csharp/issues/7)
+		* Added 'UpdateTenant' function to the 'Connection' class
+		* Updated the 'Tenant' class with new properties
+		* CogniacCSharpSDK.dll is now version 1.0.0.11	
 	</releaseNotes>
     <copyright>Copyright 2019 (c) Cogniac. All rights reserved.</copyright>
     <tags>Cogniac CSharp SDK</tags>
     <projectUrl>https://github.com/Cogniac/cogniac-sdk-csharp</projectUrl>
-    <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0.txt</licenseUrl>
+    <license type="expression">Apache-2.0</license>
     <dependencies>
       <dependency id="Newtonsoft.Json" version="10.0.3" />
       <dependency id="RestSharp" version="106.2.0" />
