@@ -948,5 +948,43 @@ namespace Cogniac
                 throw new WebException(message: "Network error while updating tenant: " + response.Content);
             }
         }
+
+        /// <summary>
+        /// Search the Cogniac system for a specific media file
+        /// </summary>
+        /// <param name="fileName">The name of the file</param>
+        /// <param name="externalMediaId">The external media ID of the file</param>
+        /// <param name="md5">The MD5 hash of the file</param>
+        /// <returns>Cogniac.Media Array</returns>
+        public Media[] SearchMedia(string fileName = null, string externalMediaId = null, string md5 = null)
+        {
+            // Check that at least ONE term is supplied
+            if ( (String.IsNullOrEmpty(fileName)) 
+                && (String.IsNullOrEmpty(externalMediaId))
+                && (String.IsNullOrEmpty(md5)) )
+            {
+                throw new ArgumentException("Provide one argument when invoking the 'SearchMedia' method.");
+            }
+            else
+            {
+                // Perform the search here
+                Dictionary<string, object> dict = new Dictionary<string, object> { };
+                dict.AddIfNotNull("filename", fileName);
+                dict.AddIfNotNull("external_media_id", externalMediaId);
+                dict.AddIfNotNull("md5", md5);
+                string data = Helpers.MapToQueryString(dict);
+                string fullUrl = $"{_urlPrefix}/media/all/search?{data}";
+                var request = new RestRequest(Method.GET);
+                var response = ExecuteRequest(fullUrl, request);
+                if (response.IsSuccessful && (response.StatusCode == HttpStatusCode.OK))
+                {
+                    return Media.FromJson(response.Content).MediaList;
+                }
+                else
+                {
+                    throw new WebException(message: "Network error while searching for media: " + response.Content);
+                }
+            }
+        }
     } // End of class
 }

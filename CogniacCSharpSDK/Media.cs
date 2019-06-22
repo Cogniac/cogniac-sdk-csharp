@@ -25,6 +25,12 @@ namespace Cogniac
     public partial class Media
     {
         /// <summary>
+        /// Media objects list
+        /// </summary>
+        [JsonProperty("data")]
+        public Media[] MediaList { get; set; }
+
+        /// <summary>
         /// Set assignment
         /// </summary>
         [JsonProperty("set_assignment")]
