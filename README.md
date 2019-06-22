@@ -249,7 +249,7 @@ __GetMediaDetections(mediaId, waitCaptureId)__
 	
 	mediaId (string):		(Required) The unique ID of the media.
 	
-	waitCaptureId (string):		(optional) The wait capture ID for the synchronous API. 
+	waitCaptureId (string):		(Optional) The wait capture ID for the synchronous API. 
 
 	Return:				Cogniac.MediaDetections - multi-member object.
 
@@ -259,14 +259,27 @@ __UpdateTenant(tenantId, name, description, azureSasTokens)__
 	
 	tenantId (string):		(Required) The unique ID of the tenant.
 	
-	name (string):			(optional) Tenant name.
+	name (string):			(Optional) Tenant name.
 	
-	description (string):		(optional) Tenant description.
+	description (string):		(Optional) Tenant description.
 
-	azureSasTokens (string):	(optional) Tenant Azure SAS token, user must 
+	azureSasTokens (string):	(Optional) Tenant Azure SAS token, user must 
 					be 'Tenant Admin' to write to this property.
 
 	Return:				Cogniac.Tenant - multi-member object.
+
+__SearchMedia(fileName, externalMediaId, md5)__
+
+	Description:			Search the Cogniac system for a specific media file
+					Only one of the search parameters should be provided.
+	
+	fileName (string):		(Optional) The name of the file.
+	
+	externalMediaId (string):	(Optional) The external media ID of the file.
+	
+	md5 (string):			(Optional) The MD5 hash of the file.
+
+	Return:				Cogniac.Media Array - multi-member object.
 
 The following are the objects used in the SDK and their members.
 		
@@ -331,6 +344,9 @@ The following are the objects used in the SDK and their members.
 		The associated user's email address.
 		
 # Class: Media
+
+	MediaList (object array)
+		Media objects list.
 
 	SetAssignment (string)		
 		Denotes whether the media will be used as training or validation.
