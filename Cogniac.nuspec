@@ -2,17 +2,16 @@
 <package>
   <metadata>
     <id>Cogniac.CSharpSDK</id>
-    <version>1.0.13</version>
-    <authors>Al Alkadi</authors>
+    <version>1.0.14</version>
+    <authors>Michael Gubbels</authors>
     <owners>Cogniac</owners>
     <iconUrl>https://cogniac.co/app/assets/images/cogniac-logo-ad919676d34ca45a6338c52ace622aba.svg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>CSharp Client Library for the Cogniac Public API</description>
     <releaseNotes>
-		* Fixed issue #14 (https://github.com/Cogniac/cogniac-sdk-csharp/issues/14)
-		* Added 'SearchMedia' function to the 'Connection' class
-		* Updated the 'Media' class with new properties
-		* CogniacCSharpSDK.dll is now version 1.0.0.12
+		* Update README with initial EdgeFlow suppport.
+		* Add EdgeFlow example.
+		* Add initial EdgeFlow support.
 	</releaseNotes>
     <copyright>Copyright 2019 (c) Cogniac. All rights reserved.</copyright>
     <tags>Cogniac CSharp SDK</tags>
@@ -30,5 +29,7 @@
 		<file src="CogniacCSharpSDK\bin\Release\CogniacCSharpSDK.xml" target="lib\Net461" />
 		<file src="CogniacUploadTool\bin\Release\CogUpload.exe" target="content\bin\Release" />
 		<file src="CogniacUploadTool\bin\Release\CogUpload.exe.config" target="content\bin\Release" />
+		<file src="CogniacEdgeFlowCLI\bin\Release\CogniacEdgeFlowCLI.exe" target="content\bin\Release" />
+		<file src="CogniacEdgeFlowCLI\bin\Release\CogniacEdgeFlowCLI.exe.config" target="content\bin\Release" />
     </files>
 </package>

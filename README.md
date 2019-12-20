@@ -682,6 +682,36 @@ The following are the objects used in the SDK and their members.
 	Activation (object)
 		Activation object.
 
+The 'Gateway' class is used for EdgeFlow requests.
+
+# Class: Gateway
+
+__Cogniac.Gateway(urlPrefix)__
+
+	Description: 			Create an authenticated Cogniac connection with known credentials.
+
+	urlPrefix (string):         	(Optional) The gateway (EdgeFlow) address. Defaults to
+					http://localhost:8000/1.
+					
+The following methods are members of the Cogniac.Gateway object:
+
+__ProcessMedia(subjectUid, fileName, mediaTimestamp, externalMediaId, domainUnit, postUrl)__
+		
+	Description:			Uploads a media file to the Gateway.
+		
+	fileName (string):		The full path and file name of media item 
+					to upload. If this is not provided, sourceUrl must be provided instead.
+		
+	mediaTimestamp (double):	(Optional) User-specified image timestamp.
+
+	externalMediaId (string):	(Optional) A unique ID for this media from it's external data source.
+	
+	domainUnit (string):		(Optional) (E.G. serial number) for set assignment grouping.
+
+	postUrl (string):		(Optional) Optional URL for receiving single HTTP POST completion result.
+
+	Return:				Cogniac.MediaDetections - multi-member object.
+
 All classes can utilize the following methods:
 
 __Cogniac.[OBJECT].FromJson(json)__
@@ -872,3 +902,27 @@ Get media subjects
 
 	string mediaId = "KnownMediaId";
 	var ms = cc.GetMediaSubjects(mediaId);
+
+# EdgeFlow SDK Usage Examples
+
+_Note: 'EdgeFlow' is synonymous with 'Gateway' in this version of the SDK._
+
+All the examples assume: 'using Cogniac;'
+
+Creating a Gateway (EdgeFlow) object.
+
+	var gw = new Gateway(urlPrefix: "http://10.0.0.1:8000/1");
+
+The following examples will assume a Cogniac.Connection object 'cc' has already been created properly.
+
+Uploading a media item to an EdgeFlow and associating it with a subject
+
+	string subjectUid = "KnownSubjectUid";
+	string fullFileName = "Path\To\Image.jpg";
+	MediaDetections md = gw.ProcessMedia(subjectUid, fileName: fullFileName);
+	if (md != null)
+	{
+		Console.WriteLine($"Upload successful.'");
+	}
+
+The response is a 'Cogniac.MediaDetections' object
