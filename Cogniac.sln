@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CogniacCSharpSDK", "CogniacCSharpSDK\CogniacCSharpSDK.csproj", "{DCDCA520-3AA1-4DAC-8E36-89FDDA60A9F1}"
 EndProject
@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CogniacUploadTool", "Cognia
 	ProjectSection(ProjectDependencies) = postProject
 		{DCDCA520-3AA1-4DAC-8E36-89FDDA60A9F1} = {DCDCA520-3AA1-4DAC-8E36-89FDDA60A9F1}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CogniacEdgeFlowCLI", "CogniacEdgeFlowCLI\CogniacEdgeFlowCLI.csproj", "{BCE66340-7AD7-4437-9488-9E555448DBAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +26,10 @@ Global
 		{0DFE7A0A-1693-4064-9D26-A22A4C59CAA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DFE7A0A-1693-4064-9D26-A22A4C59CAA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DFE7A0A-1693-4064-9D26-A22A4C59CAA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCE66340-7AD7-4437-9488-9E555448DBAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCE66340-7AD7-4437-9488-9E555448DBAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCE66340-7AD7-4437-9488-9E555448DBAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCE66340-7AD7-4437-9488-9E555448DBAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
