@@ -68,6 +68,7 @@
     <Compile Include="Auth.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="Connection.cs" />
+    <Compile Include="Gateway.cs" />
     <Compile Include="Media.cs" />
     <Compile Include="CSharpSDK.cs" />
     <Compile Include="MediaDetections.cs" />
