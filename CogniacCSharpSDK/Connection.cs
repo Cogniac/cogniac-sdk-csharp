@@ -32,6 +32,8 @@ namespace Cogniac
     /// </summary>
     public class Connection
     {
+        public const int TOKEN_RETRY_LIMIT = 3;
+
         private string _urlPrefix = "";
         private string _username = "";
         private string _password = "";
@@ -120,6 +122,11 @@ namespace Cogniac
 
         private void OnTokenTimedEvent(object source, ElapsedEventArgs e)
         {
+            RefreshTenantToken();
+        }
+
+        private void RefreshTenantToken()
+        {
             string fullUrl = $"{_urlPrefix}/token?tenant_id={_tenantId}";
             var client = new RestClient(fullUrl);
             var request = new RestRequest(Method.GET);
@@ -157,7 +164,13 @@ namespace Cogniac
             }
             if (!string.IsNullOrEmpty(_providedToken))
             {
-                request.AddHeader("Authorization", $"Bearer {_providedToken}");
+                // request.AddHeader("Authorization", $"Bearer {_providedToken}");
+                request.AddOrUpdateParameter(new Parameter
+                {
+                    Name = "Authorization",
+                    Value = $"Bearer {_providedToken}",
+                    Type = ParameterType.HttpHeader
+                });
             }
             else
             {
@@ -165,7 +178,43 @@ namespace Cogniac
             }
             client.AddHandler("application/json", new JsonDeserializer());
             request.AddHeader("Cache-Control", "no-cache");
-            return Retry.Do(() => client.Execute(request), TimeSpan.FromSeconds(5), 3);
+
+            // Note: `client.Execute` does not throw an exception even when a 
+            // non-2xx code is returned. So additional retry logic is 
+            // implemented here to handle authentication failures.
+            IRestResponse response = null;
+            int retryCount = 0;
+            while (retryCount < TOKEN_RETRY_LIMIT)
+            {
+                if (retryCount > 0)
+                {
+                    Console.WriteLine($"[DEBUG] RETRYING (ATTEMPT {retryCount})!");
+                }
+
+                response = Retry.Do(() => client.Execute(request), TimeSpan.FromSeconds(5), 3);
+
+                // Check for authentication related errors that may be 
+                // resolved by refreshing the tenant access token.
+                if (response.StatusCode == HttpStatusCode.Unauthorized ||
+                    response.StatusCode == HttpStatusCode.Forbidden ||
+                    response.StatusCode == HttpStatusCode.BadGateway)
+                {
+                    Console.WriteLine("[DEBUG] TOKEN IS EXPIRED! REFRESHING!");
+                    RefreshTenantToken();
+                    request.AddOrUpdateParameter(new Parameter
+                    {
+                        Name = "Authorization",
+                        Value = $"Bearer {_providedToken}",
+                        Type = ParameterType.HttpHeader
+                    });
+                    retryCount++;
+                    continue;
+                }
+
+                break;
+            }
+
+            return response;
         }
 
         /// <summary>
