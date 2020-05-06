@@ -192,9 +192,7 @@ namespace Cogniac
 
                 // Check for authentication related errors that may be 
                 // resolved by refreshing the tenant access token.
-                if (response.StatusCode == HttpStatusCode.Unauthorized ||
-                    response.StatusCode == HttpStatusCode.Forbidden ||
-                    response.StatusCode == HttpStatusCode.BadGateway)
+                if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
                 {
                     RefreshTenantToken();
 
