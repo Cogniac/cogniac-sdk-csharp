@@ -147,7 +147,10 @@ namespace Cogniac
                 _authObject.TenantName = GetTenant(_authObject.TenantId).Name;
                 _authObject.UserEmail = decoded_token.Claims.First(c => c.Type == "ema").Value;
                 _tokenExpiresIn = _authObject.ExpiresIn;
-                _tokenTimer.Interval = TimeSpan.FromSeconds((double)(_tokenExpiresIn - _expirationOffset)).TotalMilliseconds;
+                if (_tokenTimer != null)
+                {
+                    _tokenTimer.Interval = TimeSpan.FromSeconds((double)(_tokenExpiresIn - _expirationOffset)).TotalMilliseconds;
+                }
             }
             catch (Exception)
             {
@@ -164,7 +167,6 @@ namespace Cogniac
             }
             if (!string.IsNullOrEmpty(_providedToken))
             {
-                // request.AddHeader("Authorization", $"Bearer {_providedToken}");
                 request.AddOrUpdateParameter(new Parameter
                 {
                     Name = "Authorization",
@@ -186,11 +188,6 @@ namespace Cogniac
             int retryCount = 0;
             while (retryCount < TOKEN_RETRY_LIMIT)
             {
-                if (retryCount > 0)
-                {
-                    Console.WriteLine($"[DEBUG] RETRYING (ATTEMPT {retryCount})!");
-                }
-
                 response = Retry.Do(() => client.Execute(request), TimeSpan.FromSeconds(5), 3);
 
                 // Check for authentication related errors that may be 
@@ -199,14 +196,15 @@ namespace Cogniac
                     response.StatusCode == HttpStatusCode.Forbidden ||
                     response.StatusCode == HttpStatusCode.BadGateway)
                 {
-                    Console.WriteLine("[DEBUG] TOKEN IS EXPIRED! REFRESHING!");
                     RefreshTenantToken();
+
                     request.AddOrUpdateParameter(new Parameter
                     {
                         Name = "Authorization",
                         Value = $"Bearer {_providedToken}",
                         Type = ParameterType.HttpHeader
                     });
+
                     retryCount++;
                     continue;
                 }
